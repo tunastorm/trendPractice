@@ -24,6 +24,8 @@
 		BCA5D1FE2C16DA71005FA263 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BCA5D1FD2C16DA71005FA263 /* Alamofire */; };
 		BCA5D2002C16DAB6005FA263 /* AlamofireRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */; };
 		BCA5D2032C170EF3005FA263 /* Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2022C170EF3005FA263 /* Trending.swift */; };
+		BCA5D2052C17596C005FA263 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */; };
+		BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2062C175AE3005FA263 /* UIResource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		BCA5D1F12C16DA33005FA263 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireRequest.swift; sourceTree = "<group>"; };
 		BCA5D2022C170EF3005FA263 /* Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trending.swift; sourceTree = "<group>"; };
+		BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		BCA5D2062C175AE3005FA263 /* UIResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 				BCA5D1EC2C16CFAB005FA263 /* ReusableIdentifier.swift */,
 				BCA5D1EE2C16CFC9005FA263 /* ViewTransition.swift */,
 				BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */,
+				BCA5D2062C175AE3005FA263 /* UIResource.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 			children = (
 				BCA5D1F12C16DA33005FA263 /* MainViewController.swift */,
 				BCA5D2022C170EF3005FA263 /* Trending.swift */,
+				BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -195,6 +201,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA5D2052C17596C005FA263 /* MainTableViewCell.swift in Sources */,
+				BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */,
 				BCA5D2032C170EF3005FA263 /* Trending.swift in Sources */,
 				BCA5D1EB2C16CF8A005FA263 /* CodeBaseUI.swift in Sources */,
 				BCA5D1ED2C16CFAB005FA263 /* ReusableIdentifier.swift in Sources */,

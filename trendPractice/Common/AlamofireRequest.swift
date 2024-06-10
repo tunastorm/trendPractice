@@ -130,15 +130,15 @@ extension AlamofireRequest {
                    headers: headers)
         .responseDecodable(of: decodingType) { response in
             if let result = response.response {
-                print("| Response Status: ", result.statusCode,  " |\n| Where |\n", self.self, "\n  .", #function)
+//                print("| Response Status: ", result.statusCode,  " |\n| Where |\n", self.self, "\n  .", #function)
             } else {
                 print("| Request Connectuon Failed |\n| Where | ", self.self, ",", #function)
             }
             
             switch response.result {
             case .success(let value):
-                print("| Decoding SUCCESS |\n| Where | ", self.self, ".", #function)
-                print("| value | ", value)
+//                print("| Decoding SUCCESS |\n| Where | ", self.self, ".", #function)
+//                print("| value | ", value)
                 callback?(value)
             case .failure(let error):
                 print(error)

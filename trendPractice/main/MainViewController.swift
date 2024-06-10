@@ -54,7 +54,6 @@ extension MainViewController: AlamofireRequest {
                        decodingType: Trending.self,
                        callback: { (data: Trending) -> () in
                            self.data = data.results
-//                           print(#function, "data: \(self.data)")
                            self.tableView.reloadData()
                         })
     }

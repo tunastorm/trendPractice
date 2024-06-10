@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 struct Trending: Decodable {
     let page: Int
     let results: [Result]

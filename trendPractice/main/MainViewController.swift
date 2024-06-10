@@ -6,14 +6,18 @@
 //
 
 import UIKit
+
 import Alamofire
 import SnapKit
+import Then
 
 class MainViewController: UIViewController {
 
-    var data: [Result]?
+    var dataList: [Result]?
     
-    let tableView = UITableView()
+    let tableView = UITableView().then {
+        $0.separatorInset = .zero
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +38,8 @@ class MainViewController: UIViewController {
     func configTableViewSetting() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(MainTableViewCell.self,
+                           forCellReuseIdentifier: MainTableViewCell.identifier)
     }
 }
 
@@ -53,7 +59,7 @@ extension MainViewController: AlamofireRequest {
                        headers: headers,
                        decodingType: Trending.self,
                        callback: { (data: Trending) -> () in
-                           self.data = data.results
+                           self.dataList = data.results
                            self.tableView.reloadData()
                         })
     }
@@ -80,21 +86,30 @@ extension MainViewController: CodeBaseUI {
     }
     
     func configUI() {
-        view.backgroundColor = .white
+        
     }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let data {
-            return data.count
+        if let dataList {
+            return dataList.count
         } else {
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        
+        let rowIndex = indexPath.row
+        
+        guard let dataList else {return UITableViewCell()}
+        
+        let data = dataList[rowIndex]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
+        
+        cell.configCell(data)
         
         return cell
     }

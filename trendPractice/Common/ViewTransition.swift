@@ -9,17 +9,17 @@ import UIKit
 
 protocol ViewTransition {
    
-   func pushAfterView(view: UIViewController, animated: Bool)
+    func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool)
     
-   func presentAfterView(view: UIViewController, animated: Bool)
+    func presentAfterView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool)
     
-   func navigationPresentAfterView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool)
+    func navigationPresentAfterView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool)
     
-   func popBeforeView(animated: Bool)
+    func popBeforeView(animated: Bool)
    
-   func popToBeforeView(_ view: UIViewController, animated: Bool)
+    func popToBeforeView(_ view: UIViewController, animated: Bool)
     
-   func popToRootView(animated: Bool)
+    func popToRootView(animated: Bool)
 }
 
 // 제네릭, 프로토콜
@@ -28,11 +28,15 @@ protocol ViewTransition {
 
 extension UIViewController: ViewTransition {
 
-    func pushAfterView(view: UIViewController, animated: Bool) {
+    func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool) {
+        if !backButton {
+            view.navigationItem.hidesBackButton = true
+        }
         self.navigationController?.pushViewController(view, animated: animated)
     }
     
-    func presentAfterView(view: UIViewController, animated: Bool) {
+    func presentAfterView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool) {
+        view.modalPresentationStyle = presentationStyle
         self.present(view, animated: animated)
     }
     

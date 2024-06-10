@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         
-        let controller = Controller()
-        let navigationController = UINavigationController(rootViewController: controller)
+        let vc = Controller()
+        let navigationController = UINavigationController(rootViewController: vc)
+        
         window?.rootViewController = navigationController// sb entrypoint
         window?.makeKeyAndVisible() // show the rootViewController to display
     }
@@ -53,7 +54,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
+    
+}
 
-
+extension SceneDelegate {
+    
 }
 

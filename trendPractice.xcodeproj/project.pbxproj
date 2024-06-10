@@ -26,6 +26,9 @@
 		BCA5D2032C170EF3005FA263 /* Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2022C170EF3005FA263 /* Trending.swift */; };
 		BCA5D2052C17596C005FA263 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */; };
 		BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2062C175AE3005FA263 /* UIResource.swift */; };
+		BCA5D20A2C176450005FA263 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2092C176450005FA263 /* UIView+Extension.swift */; };
+		BCA5D20C2C176FEB005FA263 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D20B2C176FEB005FA263 /* UIViewController+Extension.swift */; };
+		BCA5D2102C177993005FA263 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D20F2C177993005FA263 /* RoundShadowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		BCA5D2022C170EF3005FA263 /* Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trending.swift; sourceTree = "<group>"; };
 		BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		BCA5D2062C175AE3005FA263 /* UIResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResource.swift; sourceTree = "<group>"; };
+		BCA5D2092C176450005FA263 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		BCA5D20B2C176FEB005FA263 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		BCA5D20F2C177993005FA263 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,7 @@
 		BCA5D1E52C16C937005FA263 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BCA5D2082C17642C005FA263 /* Extension */,
 				BCA5D1E82C16CEE2005FA263 /* APIKey.swift */,
 				BCA5D1EA2C16CF8A005FA263 /* CodeBaseUI.swift */,
 				BCA5D1EC2C16CFAB005FA263 /* ReusableIdentifier.swift */,
@@ -112,10 +119,20 @@
 			isa = PBXGroup;
 			children = (
 				BCA5D1F12C16DA33005FA263 /* MainViewController.swift */,
-				BCA5D2022C170EF3005FA263 /* Trending.swift */,
 				BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */,
+				BCA5D2022C170EF3005FA263 /* Trending.swift */,
+				BCA5D20F2C177993005FA263 /* RoundShadowView.swift */,
 			);
 			path = main;
+			sourceTree = "<group>";
+		};
+		BCA5D2082C17642C005FA263 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BCA5D2092C176450005FA263 /* UIView+Extension.swift */,
+				BCA5D20B2C176FEB005FA263 /* UIViewController+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,8 +219,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA5D2052C17596C005FA263 /* MainTableViewCell.swift in Sources */,
+				BCA5D20A2C176450005FA263 /* UIView+Extension.swift in Sources */,
 				BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */,
 				BCA5D2032C170EF3005FA263 /* Trending.swift in Sources */,
+				BCA5D20C2C176FEB005FA263 /* UIViewController+Extension.swift in Sources */,
+				BCA5D2102C177993005FA263 /* RoundShadowView.swift in Sources */,
 				BCA5D1EB2C16CF8A005FA263 /* CodeBaseUI.swift in Sources */,
 				BCA5D1ED2C16CFAB005FA263 /* ReusableIdentifier.swift in Sources */,
 				BCA5D1D62C16C89C005FA263 /* Controller.swift in Sources */,

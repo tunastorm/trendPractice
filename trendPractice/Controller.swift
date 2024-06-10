@@ -11,8 +11,17 @@ class Controller: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        pushAfterView(view: MainViewController(), animated: false)
+        setDefaultUI()
+        pushAfterView(view: MainViewController(), backButton: false, animated: false)
+//        navigationPresentAfterView(view: MainViewController(),
+//                                   style: .fullScreen,
+//                                   animated: false)
+//        presentAfterView(view: MainViewController(),
+//                         presentationStyle: .fullScreen,
+//                         animated: false)
     }
+    
+    
     
     
 }

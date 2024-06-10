@@ -20,21 +20,20 @@ protocol AlamofireRequest {
     func HTTPResponseString(_ httpMethod: HTTPMethod, URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, headers: Alamofire.HTTPHeaders)
     
     
-    func getHTTPRequest<T:Decodable>(URL: String, parameters: Parameters, decodingType: T.Type, callback: ())
+    func getHTTPRequest<T:Decodable>(URL: String, parameters: Parameters, decodingType: T.Type, callback: ((_ data: T)->())? )
 
-    func getHTTPRequest<T:Decodable>(URL: String, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback: ())
+    func getHTTPRequest<T:Decodable>(URL: String, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback: ((_ data: T)->())?)
     
-    func getHTTPRequest<T:Decodable>(URL: String, parameters: Alamofire.Parameters, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback: ())
+    func getHTTPRequest<T:Decodable>(URL: String, parameters: Alamofire.Parameters, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback: ((_ data: T)->())?)
 
     
-    func postHTTPRequest<T:Decodable>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoder, decodingType: T.Type, callback: ())
+    func postHTTPRequest<T:Decodable>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, decodingType: T.Type, callback: ((_ data: T)->())?)
 
-    func postHTTPRequest<T:Decodable>(URL: String, headers: Alamofire.HTTPHeaders, encoding: Alamofire.ParameterEncoder, decodingType: T.Type, callback: ())
+    func postHTTPRequest<T:Decodable>(URL: String, headers: Alamofire.HTTPHeaders, encoding: Alamofire.ParameterEncoding, decodingType: T.Type, callback: ((_ data: T)->())?)
     
-    func postHTTPRequest<T:Decodable>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, headers: Alamofire.HTTPHeaders, decodingType : T.Type, callback: ())
+    func postHTTPRequest<T:Decodable>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, headers: Alamofire.HTTPHeaders, decodingType : T.Type, callback: ((_ data: T)->())?)
 }
 
-extension MainViewController: AlamofireRequest {}
 
 extension AlamofireRequest {
     
@@ -78,7 +77,7 @@ extension AlamofireRequest {
         }
     }
     
-    func getHTTPRequest<T>(URL: String, parameters: Alamofire.Parameters, decodingType: T.Type, callback updateData:  ()) where T : Decodable {
+    func getHTTPRequest<T>(URL: String, parameters: Alamofire.Parameters, decodingType: T.Type, callback: ((_ data: T)->())?) where T : Decodable {
         AF.request(URL,
                    method: .get,
                    parameters: parameters)
@@ -93,14 +92,14 @@ extension AlamofireRequest {
             case .success(let value):
                 print("| Decoding SUCCESS |\n| Where | ", self.self, ", ", #function)
                 print("| value | ", value)
-                updateData
+                callback?(value)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func getHTTPRequest<T>(URL:String, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback updateData: ()) where T: Decodable {
+    func getHTTPRequest<T>(URL:String, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback: ((_ data: T)->())?) where T: Decodable {
         
         AF.request(URL,
                    method: .get,
@@ -116,14 +115,14 @@ extension AlamofireRequest {
             case .success(let value):
                 print("| Decoding SUCCESS |\n| Where | ", self.self, ", ", #function)
                 print("| value | ", value)
-                updateData
+                callback?(value)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func getHTTPRequest<T>(URL:String, parameters: Alamofire.Parameters, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback updateData: ()) where T: Decodable {
+    func getHTTPRequest<T>(URL:String, parameters: Alamofire.Parameters, headers: Alamofire.HTTPHeaders, decodingType: T.Type, callback: ((_ data: T)->())?) where T: Decodable {
         
         AF.request(URL,
                    method: .get,
@@ -131,28 +130,28 @@ extension AlamofireRequest {
                    headers: headers)
         .responseDecodable(of: decodingType) { response in
             if let result = response.response {
-                print("| Response Status: ", result.statusCode,  " |\n| Where |\n", self.self, "\n    .", #function)
+                print("| Response Status: ", result.statusCode,  " |\n| Where |\n", self.self, "\n  .", #function)
             } else {
-                print("| Request Connectuon Failed |\n| Where | ", self.self, ", ", #function)
+                print("| Request Connectuon Failed |\n| Where | ", self.self, ",", #function)
             }
             
             switch response.result {
             case .success(let value):
-                print("| Decoding SUCCESS |\n| Where | ", self.self, ", ", #function)
+                print("| Decoding SUCCESS |\n| Where | ", self.self, ".", #function)
                 print("| value | ", value)
-                updateData
+                callback?(value)
             case .failure(let error):
                 print(error)
             }
         }
     }
-
-    func postHTTPRequest<T>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoder, decodingType : T.Type, callback updateData: ()) where T: Decodable {
+    
+    func postHTTPRequest<T>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, decodingType : T.Type, callback: ((_ data: T)->())?) where T: Decodable {
         
         AF.request(URL,
                    method: .post,
                    parameters: parameters,
-                   encoding: JSONEncoding.default)
+                   encoding: encoding)
         .responseDecodable(of: decodingType) { response in
             if let result = response.response {
                 print("| Response Status: ", result.statusCode, " |\n| Where |\n", self.self, "\n    .", #function)
@@ -164,17 +163,17 @@ extension AlamofireRequest {
             case .success(let value):
                 print("| Decoding SUCCESS |\n| Where | ", self.self, ", ", #function)
                 print("| value | ", value)
-                updateData
+                callback?(value)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func postHTTPRequest<T>(URL: String, headers: Alamofire.HTTPHeaders, encoding: Alamofire.ParameterEncoder, decodingType : T.Type, callback updateData: ()) where T: Decodable {
+    func postHTTPRequest<T>(URL: String, headers: Alamofire.HTTPHeaders, encoding: Alamofire.ParameterEncoding, decodingType : T.Type, callback: ((_ data: T)->())?) where T: Decodable {
         AF.request(URL,
                    method: .post,
-                   encoding: JSONEncoding.default,
+                   encoding: encoding,
                    headers: headers)
         .responseDecodable(of: decodingType) { response in
             if let result = response.response {
@@ -187,7 +186,7 @@ extension AlamofireRequest {
             case .success(let value):
                 print("| Decoding SUCCESS |\n| Where | ", self.self, ", ", #function)
                 print("| value | ", value)
-                updateData
+                callback?(value)
             case .failure(let error):
                 print(error)
             }
@@ -195,12 +194,12 @@ extension AlamofireRequest {
         
     }
     
-    func postHTTPRequest<T>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, headers: Alamofire.HTTPHeaders, decodingType : T.Type, callback updateData: ()) where T: Decodable {
+    func postHTTPRequest<T>(URL: String, parameters: Alamofire.Parameters, encoding: Alamofire.ParameterEncoding, headers: Alamofire.HTTPHeaders, decodingType : T.Type, callback: ((_ data: T)->())?) where T: Decodable {
         
         AF.request(URL,
                    method: .post,
                    parameters: parameters,
-                   encoding: JSONEncoding.default,
+                   encoding: encoding,
                    headers: headers)
         .responseDecodable(of: decodingType) { response in
             if let result = response.response {
@@ -213,7 +212,7 @@ extension AlamofireRequest {
             case .success(let value):
                 print("| Decoding SUCCESS |\n| Where | ", self.self, ", ", #function)
                 print("| value | ", value)
-                updateData
+                callback?(value)
             case .failure(let error):
                 print(error)
             }

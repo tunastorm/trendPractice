@@ -11,6 +11,7 @@ class Controller: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        pushAfterView(view: MainViewController(), animated: false)
     }
     
     

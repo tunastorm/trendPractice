@@ -30,53 +30,6 @@ class MainTableViewCell: UITableViewCell {
     
     let videoView = RoundShadowView()
     
-    let videoImageView = UIImageView().then {
-        $0.contentMode = .scaleToFill
-    }
-    
-    let bookmarkButton = UIButton().then{
-        $0.backgroundColor = .white
-        $0.setImage(UIResource.image.paperClip, for: .normal)
-        $0.tintColor = .black
-    }
-    
-    let rateTitleLabel = UILabel().then {
-        $0.textAlignment = .center
-        $0.backgroundColor = .systemPurple
-    }
-    
-    let rateLabel = UILabel().then {
-        $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: UIResource.fontSize.thin)
-        $0.backgroundColor = .white
-        
-    }
-    
-    let videoTitleLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: UIResource.fontSize.middle)
-        $0.textAlignment = .left
-    }
-    
-    let videoActerLabel = UILabel().then {
-        $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: UIResource.fontSize.thinest)
-        $0.textColor = .lightGray
-    }
-    
-    let lineView = UIView().then {
-        $0.backgroundColor = .black
-    }
-    
-    let showDetailLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: UIResource.fontSize.thinest)
-        $0.textAlignment = .left
-    }
-    
-    let showDetailButton = UIButton().then {
-        $0.tintColor = .black
-        $0.setImage(UIResource.image.chevronRight, for: .normal)
-    }
-
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -90,12 +43,64 @@ class MainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(_ data: Result) {
+    func configTrendingData(_ data: Result) {
+        
+        guard let releaseDate = data.releaseDate else {return}
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let oldDate = dateFormatter.date(from: releaseDate) else {return}
+        
+        dateFormatter.dateFormat = UIResource.Text.mainViewDate.dateFormatString
+        
+        dateLabel.text = dateFormatter.string(from: oldDate)
+        
+        videoView.rateLabel.text = String(format: "%.1f", data.voteAverage/2)
+        
+        var titleText = ""
+        switch data.mediaType {
+        case .movie: titleText = data.title ?? ""
+        case .tv: titleText = data.name ?? ""
+        }
+        
+        videoView.videoTitleLabel.text = titleText
+        
         let baseURL = "https://image.tmdb.org/t/p/w780"
         let url = URL(string: baseURL+"/"+data.posterPath)
         videoView.containerView.kf.setImage(with: url)
     }
-
+    
+    func configGenreData(_ data: [Genre]) {
+        
+        guard let tag = tagLabel.text else {return}
+        
+        if tag.count > 1 {
+            return
+        }
+        
+        var copyTag = tag
+        
+        for (idx, genre) in data.enumerated() {
+            copyTag += genre.name
+            if idx < data.count-1 {
+                copyTag += ", #"
+            }
+        }
+    
+        tagLabel.text = copyTag
+    }
+    
+    func configCastData(data: [Cast]) {
+        var castText = ""
+        for (idx,cast) in data.enumerated() {
+            castText += cast.name
+            if idx < data.count-1 {
+                castText += ", "
+            }
+        }
+        videoView.videoActerLabel.text = castText
+    }
 }
 
 extension MainTableViewCell: CodeBaseUI {
@@ -117,15 +122,14 @@ extension MainTableViewCell: CodeBaseUI {
             $0.leading.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         videoView.snp.makeConstraints{
-            $0.height.equalTo(300)
+            $0.height.equalTo(340)
             $0.top.equalTo(tagLabel.snp.bottom).offset(8)
             $0.bottom.horizontalEdges.equalToSuperview().inset(20)
         }
-        
     }
     
     func configUI() {
-     
+        self.selectionStyle = .none
     }
     
     

@@ -3,7 +3,7 @@
 //  trendPractice
 //
 //  Created by 유철원 on 6/10/24.
-//
+
 
 import UIKit
 
@@ -62,7 +62,7 @@ class MainViewController: UIViewController {
 extension MainViewController: AlamofireRequest {
     func setWeeklyTrendData() {
         getHTTPRequest(URL: TMDB.trendingAPIAllWeek.URL,
-                       parameters: MyAuth.parameters,
+                       parameters: MyAuth.trendingParameters,
                        headers: MyAuth.headers,
                        decodingType: Trending.self,
                        callback: { (data: Trending) -> () in
@@ -107,7 +107,7 @@ extension MainViewController: AlamofireRequest {
     func setMovieCreditsData(id: Int) {
         let requestURL = TMDB.movieCreditsAPI.URL.replacingOccurrences(of: "{movie_id}", with: "\(id)")
         getHTTPRequest(URL: requestURL,
-                       parameters: MyAuth.parameters,
+                       parameters: MyAuth.trendingParameters,
                        headers: MyAuth.headers,
                        decodingType: Credits.self,
                        callback: {(data: Credits) -> () in
@@ -119,7 +119,7 @@ extension MainViewController: AlamofireRequest {
     func setTVCreditsData(id: Int) {
         let requestURL = TMDB.tvSeriesCreditsAPI.URL.replacingOccurrences(of: "{series_id}", with: "\(id)")
         getHTTPRequest(URL: requestURL,
-                       parameters: MyAuth.parameters,
+                       parameters: MyAuth.trendingParameters,
                        headers: MyAuth.headers,
                        decodingType: Credits.self,
                        callback: {(data: Credits) -> () in
@@ -178,7 +178,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         var thisGenres: [Genre] = []
         var copyIDS = data.genreIDS
         
-        print(#function, genreDict)
+//        print(#function, genreDict)
         
         for genre in genreList {
             if copyIDS.count > 0, copyIDS.contains(genre.id) {

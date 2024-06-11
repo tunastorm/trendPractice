@@ -30,7 +30,7 @@ class UserDefaultHelper {
     
     var recommandedWords: [String] {
         get {
-            return userDefaults.array(forKey: Key.recomandedWords.rawValue) as? [String] ?? ["러브", "액션", "드라마", "코미디"]
+            return userDefaults.array(forKey: Key.recomandedWords.rawValue) as? [String] ?? ["액션", "드라마", "코미디"]
         }
         set {
             userDefaults.set(newValue, forKey: Key.recomandedWords.rawValue)

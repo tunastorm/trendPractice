@@ -106,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				BCA5D1E52C16C937005FA263 /* Common */,
+				BCA5D1F02C16DA0F005FA263 /* main */,
 				BCA5D2212C183801005FA263 /* Search */,
 				BCA5D1D12C16C89C005FA263 /* AppDelegate.swift */,
 				BCA5D1D32C16C89C005FA263 /* SceneDelegate.swift */,
@@ -128,7 +129,6 @@
 				BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */,
 				BCA5D2062C175AE3005FA263 /* UIResource.swift */,
 				BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */,
-				BCA5D1F02C16DA0F005FA263 /* main */,
 			);
 			path = Common;
 			sourceTree = "<group>";

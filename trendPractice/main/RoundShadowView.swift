@@ -111,8 +111,6 @@ class RoundShadowView: UIView {
         //
       
         // add constraints
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-      
         // pin the containerView to the edges to the view
         containerView.snp.makeConstraints{
             $0.height.equalToSuperview()

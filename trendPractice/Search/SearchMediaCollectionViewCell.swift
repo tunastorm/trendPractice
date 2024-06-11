@@ -11,6 +11,7 @@ class SearchMediaCollectionViewCell: UICollectionViewCell {
     
     private var radiousValue: CGFloat = UIResource.Number.mainViewVideoUIView.cornerRadious
     
+    let shadowView = UIView()
     let imageView = UIImageView()
     
     override init(frame: CGRect) {
@@ -33,21 +34,27 @@ class SearchMediaCollectionViewCell: UICollectionViewCell {
 
 extension SearchMediaCollectionViewCell: CodeBaseUI {
     func configHierarchy() {
-        contentView.addSubview(imageView)
+        contentView.addSubview(shadowView)
+        shadowView.addSubview(imageView)
     }
     
     func configLayout() {
+        shadowView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         imageView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
     }
     
     func configUI() {
-        layer.backgroundColor = UIColor.clear.cgColor
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0.1)
-        layer.shadowOpacity = UIResource.opacity.quater
-        layer.shadowRadius = UIResource.Number.mainViewVideoUIView.shadowCornerRadious
+        shadowView.layer.backgroundColor = UIColor.clear.cgColor
+        shadowView.layer.shadowColor = UIColor.black.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        shadowView.layer.shadowOpacity = 0.1
+        shadowView.layer.shadowRadius = UIResource.Number.mainViewVideoUIView.shadowCornerRadious
+//        layer.shadowPath = UIBezier
         
         // set the cornerRadius of the containerView's layer
         imageView.layer.cornerRadius = radiousValue

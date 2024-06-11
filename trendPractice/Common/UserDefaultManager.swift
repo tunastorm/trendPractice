@@ -16,24 +16,24 @@ class UserDefaultHelper {
     let userDefaults = UserDefaults.standard
     
     enum Key: String {
-        case searchedWord, recomandedWord
+        case searchedWords, recomandedWords
     }
     
-    var searchedWord: [String] {
+    var searchedWords: [String] {
         get {
-            return userDefaults.array(forKey: Key.searchedWord.rawValue) as! [String]
+            return userDefaults.array(forKey: Key.searchedWords.rawValue) as? [String] ?? []
         }
         set {
-            userDefaults.set(newValue, forKey: Key.searchedWord.rawValue)
+            userDefaults.set(newValue, forKey: Key.searchedWords.rawValue)
         }
     }
     
-    var recommandedWord: [String] {
+    var recommandedWords: [String] {
         get {
-            return userDefaults.array(forKey: Key.recomandedWord.rawValue) as! [String]
+            return userDefaults.array(forKey: Key.recomandedWords.rawValue) as? [String] ?? ["러브", "액션", "드라마", "코미디"]
         }
         set {
-            userDefaults.set(newValue, forKey: Key.recomandedWord.rawValue)
+            userDefaults.set(newValue, forKey: Key.recomandedWords.rawValue)
         }
     }
 }

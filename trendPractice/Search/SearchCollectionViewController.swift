@@ -15,6 +15,8 @@ import Then
 
 class SearchCollectionViewController: UIViewController {
 
+    var delegate: Controller?
+    
     let searchBar = UISearchBar().then {
         $0.searchBarStyle = .minimal
     }
@@ -22,13 +24,13 @@ class SearchCollectionViewController: UIViewController {
     var movieLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .boldSystemFont(ofSize: UIResource.fontSize.middle)
-        $0.text = "추천 영화"
+//        $0.text = "추천 영화"
     }
     
     var tvLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .boldSystemFont(ofSize: UIResource.fontSize.middle)
-        $0.text = "추천 TV 시리즈"
+//        $0.text = "추천 TV 시리즈"
     }
     
     
@@ -67,9 +69,10 @@ class SearchCollectionViewController: UIViewController {
     
     var size: Int = 20
     
+    var isInitialSearch = true
     var initialKeyword = ["god"]
+    var searchedWords: [String] = []
 
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +100,7 @@ class SearchCollectionViewController: UIViewController {
 
 
 extension SearchCollectionViewController: CodeBaseUI {
+    
     func configHierarchy() {
         view.addSubview(searchBar)
         view.addSubview(movieLabel)
@@ -121,7 +125,7 @@ extension SearchCollectionViewController: CodeBaseUI {
         movieCollectionView.snp.makeConstraints {
             $0.height.equalTo(260)
             $0.top.equalTo(movieLabel.snp.bottom)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
         
         tvLabel.snp.makeConstraints{
@@ -133,23 +137,43 @@ extension SearchCollectionViewController: CodeBaseUI {
         tvCollectionView.snp.makeConstraints {
             $0.height.equalTo(260)
             $0.top.equalTo(tvLabel.snp.bottom)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     func configUI() {
+        setDefaultUI()
         view.backgroundColor = .white
         navigationItem.title = UIResource.Text.searchCollectionView.navigationTitle
-//        collectionView.backgroundColor = .green
+        let barbuttonItem = UIBarButtonItem(image: UIResource.image.chevronLeft, style: .plain, target: self, action: #selector(goMainView))
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = barbuttonItem
+    }
+    
+    @objc func goMainView() {
+        delegate?.nextView = MainViewController.self
+        popToRootView(animated: true)
     }
 }
 
 extension SearchCollectionViewController: AlamofireRequest {
     func initialSearching() {
+        let fastSearched = UserDefaultHelper.standard.searchedWords
+        print(#function, "fastSearched: \(fastSearched)")
         
-        movieParameters["query"] = initialKeyword.first
+        searchedWords = UserDefaultHelper.standard.searchedWords
+        
+        if searchedWords.count > 0 {
+            initialKeyword = searchedWords
+        } else {
+            initialKeyword = UserDefaultHelper.standard.recommandedWords
+        }
+        
+        let searchWord = initialKeyword.randomElement()
+        
+        movieParameters["query"] = searchWord
         movieParameters["page"] = moviePage
-        tvParameters["query"] = initialKeyword.first
+        tvParameters["query"] = searchWord
         tvParameters["page"] = tvPage
         
         callSearchMovieRequest()
@@ -162,12 +186,14 @@ extension SearchCollectionViewController: AlamofireRequest {
                        headers: MyAuth.headers,
                        decodingType: SearchResult.self,
                        callback: {(data: SearchResult)->() in
-                            
+            
                             if self.moviePage > data.totalPages {
                                 return
-                            }
+                                
+                            } else if data.results.count == 0 {
+                                return
                             
-                            if self.moviePage == 1 {
+                            } else if self.moviePage == 1  {
                                 self.movieSearchResult = data
                                 self.movieCollectionView.reloadData()
                                 self.movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
@@ -187,33 +213,48 @@ extension SearchCollectionViewController: AlamofireRequest {
                        callback: {(data: SearchResult) -> () in
                             if self.tvPage > data.totalPages {
                                 return
-                            }
-                            
-                            if self.tvPage == 1 {
+                                
+                            } else if data.results.count == 0 {
+                                return
+                                
+                            } else if self.tvPage == 1 {
                                 self.tvSearchResult = data
                                 self.tvCollectionView.reloadData()
                                 self.tvCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
-                                                                 at: .left, animated: true)
+                                                                   at: .left, animated: true)
                             } else {
                                 self.tvSearchResult?.results.append(contentsOf: data.results)
                                 self.tvCollectionView.reloadData()
                             }
-                       })
+                            
+                            if self.isInitialSearch, self.searchedWords.count > 0, let lastWord = self.searchedWords.last {
+                                self.movieLabel.text = "최근 검색어 '\(lastWord)' 관련 영화"
+                                self.tvLabel.text = "최근 검색어 '\(lastWord)' 관련 TV 시리즈"
+                                self.isInitialSearch = false
+                            } else {
+                                self.movieLabel.text = "'\(self.movieParameters["query"]!)' 관련 영화"
+                                self.tvLabel.text = "'\(self.tvParameters["query"]!)' 관련 TV 시리즈"
+                                self.isInitialSearch = false
+                           }
+                        })
     }
-    
 }
 
 
 extension SearchCollectionViewController: UISearchBarDelegate {
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.text = nil
-        return true
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.text = ""
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text,
            searchText.count > 1, Set(searchText).count > 1 {
+            movieSearchResult = nil
+            tvSearchResult = nil
+            searchedWords.append(searchText)
+            UserDefaultHelper.standard.searchedWords = searchedWords
+            
             moviePage = 1
             tvPage = 1
             
@@ -221,9 +262,6 @@ extension SearchCollectionViewController: UISearchBarDelegate {
             movieParameters["query"] = searchText
             tvParameters["page"] = tvPage
             tvParameters["query"] = searchText
-        
-            movieLabel.text = "'\(searchText)' 관련 영화"
-            tvLabel.text = "'\(searchText)' 관련 TV 시리즈"
             
             callSearchMovieRequest()
             callSearchTVRequest()
@@ -282,12 +320,14 @@ extension SearchCollectionViewController: UICollectionViewDelegate, UICollection
                 if let resultList = movieSearchResult?.results, resultList.count - 2 == item.row,
                    let totalPages = movieSearchResult?.totalPages, moviePage < totalPages {
                     moviePage += 1
+                    movieParameters["page"] = moviePage
                     callSearchMovieRequest()
                 }
             } else {
                 if let resultList = tvSearchResult?.results, resultList.count - 2 == item.row,
                    let totalPages = tvSearchResult?.totalPages, tvPage < totalPages {
                     tvPage += 1
+                    tvParameters["page"] = tvPage
                     callSearchTVRequest()
                 }
             }

@@ -12,7 +12,9 @@ import SnapKit
 import Then
 
 class MainViewController: UIViewController {
-
+    
+    var delegate: Controller?
+    
     var dataList: [Result]?
     var genreDict: [Result.MediaType:[Genre]] = [Result.MediaType.movie: [],
                                                  Result.MediaType.tv: []]
@@ -141,7 +143,15 @@ extension MainViewController: CodeBaseUI {
     }
     
     func configUI() {
-        
+        setDefaultUI()
+        let barButtonItem = UIBarButtonItem(image: UIResource.image.magnifyingGlass,
+                                            style: .plain, target: self, action:#selector(goSearchPage))
+        navigationItem.rightBarButtonItem = barButtonItem
+    }
+    
+    @objc func goSearchPage() {
+        delegate?.nextView = SearchCollectionViewController.self
+        popToRootView(animated: true)
     }
 }
 

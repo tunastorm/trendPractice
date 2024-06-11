@@ -10,7 +10,7 @@ import Foundation
 
 struct Trending: Decodable {
     let page: Int
-    let results: [Result]
+    var results: [Result]
     let totalPages, totalResults: Int
     
     init(from decoder: any Decoder) throws {

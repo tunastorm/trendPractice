@@ -12,13 +12,9 @@ class Controller: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setDefaultUI()
-        pushAfterView(view: MainViewController(), backButton: false, animated: false)
-//        navigationPresentAfterView(view: MainViewController(),
-//                                   style: .fullScreen,
-//                                   animated: false)
-//        presentAfterView(view: MainViewController(),
-//                         presentationStyle: .fullScreen,
-//                         animated: false)
+//        pushAfterView(view: MainViewController(), backButton: false, animated: false)
+        pushAfterView(view: SearchCollectionViewController(), backButton: true, animated: true)
+
     }
     
     

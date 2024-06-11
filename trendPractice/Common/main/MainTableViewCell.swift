@@ -66,7 +66,7 @@ class MainTableViewCell: UITableViewCell {
         
         videoView.videoTitleLabel.text = titleText
         
-        let baseURL = "https://image.tmdb.org/t/p/w780"
+        let baseURL = "https://image.tmdb.org/t/p/w780" 
         let url = URL(string: baseURL+"/"+data.posterPath)
         videoView.containerView.kf.setImage(with: url)
     }

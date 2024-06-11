@@ -26,6 +26,7 @@ struct UIResource {
         case mainCellOverView
         case mainCellCast
         
+        case searchCollectionView
         
         var sign: String {
             switch self {
@@ -37,6 +38,7 @@ struct UIResource {
         var navigationTitle: String {
             switch self {
             case .mainTableViewCell: return "출연/제작"
+            case .searchCollectionView: return  "영화 검색"
             default: return "\(self) is Wrong Case for title"
             }
         }

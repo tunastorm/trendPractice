@@ -9,6 +9,7 @@ import UIKit
 import Alamofire
 
 
+// URLRequestConvertiable convetable
 protocol AlamofireRequest {
     
     func HTTPResponseString(_ httpMethod: HTTPMethod, URL: String, parameters: Alamofire.Parameters)

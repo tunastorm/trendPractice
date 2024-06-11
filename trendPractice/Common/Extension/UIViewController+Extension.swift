@@ -13,6 +13,9 @@ extension UIViewController {
     func setDefaultUI() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.tintColor = .black
+        
+        navigationItem.backButtonTitle = ""
+        
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white

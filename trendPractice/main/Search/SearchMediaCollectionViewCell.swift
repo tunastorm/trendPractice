@@ -9,10 +9,14 @@ import UIKit
 
 class SearchMediaCollectionViewCell: UICollectionViewCell {
     
+    var delegate: CellTransitionDelegate?
+    
     private var radiousValue: CGFloat = UIResource.Number.mainViewVideoUIView.cornerRadious
     
     let shadowView = UIView()
     let imageView = UIImageView()
+    var contentsType: APIConstants.ContentsType?
+    var contentsName: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,10 +29,23 @@ class SearchMediaCollectionViewCell: UICollectionViewCell {
         fatalError("warning!!!!!!!!!!!!!")
     }
     
-    func configCell(_ data: Result) {
+    func configCell(_ data: Result, type: APIConstants.ContentsType) {
+        print(#function, type)
+        self.contentsType = type
+        self.contentsName = data.title
         let baseURL = "https://image.tmdb.org/t/p/w780"
         let url = URL(string: baseURL + data.posterPath)
         imageView.kf.setImage(with: url)
+        shadowView.tag = data.id
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goDetailView))
+        shadowView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func goDetailView() {
+        guard let contentsType, let contentsName else {return}
+        print(#function, " \(contentsType) | \(shadowView.tag) | \(contentsName)")
+        delegate?.pushAfterViewType(type: DetailViewController.self, backButton: true, animated: true,
+                                    contents: (contentsType, shadowView.tag, contentsName))
     }
 }
 
@@ -54,9 +71,7 @@ extension SearchMediaCollectionViewCell: CodeBaseUI {
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
         shadowView.layer.shadowOpacity = 0.1
         shadowView.layer.shadowRadius = UIResource.Number.mainViewVideoUIView.shadowCornerRadious
-//        layer.shadowPath = UIBezier
-        
-        // set the cornerRadius of the containerView's layer
+
         imageView.layer.cornerRadius = radiousValue
         imageView.layer.masksToBounds = true
     }

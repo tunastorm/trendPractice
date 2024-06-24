@@ -16,6 +16,8 @@ struct UIResource {
     static var fontSize = FontSize()
     
     enum Text {
+        static let imageBaseURL = "https://image.tmdb.org/t/p/w780"
+        
         case tag
         
         case mainViewDate
@@ -27,6 +29,9 @@ struct UIResource {
         case mainCellCast
         
         case searchCollectionView
+        
+        case detailViewSimilar
+        case detailViewRecommand
         
         var sign: String {
             switch self {
@@ -49,6 +54,8 @@ struct UIResource {
             case .mainViewShowDetail: return "자세히 보기"
             case .mainCellOverView: return "OverView"
             case .mainCellCast: return "Cast"
+            case .detailViewSimilar: return "비슷한 "
+            case .detailViewRecommand: return "추천 "
             default: return "\(self) is Wrong Case for rateTitle"
             }
         }
@@ -59,6 +66,8 @@ struct UIResource {
             default: return "\(self) is Wrong Case for dateFormatString"
             }
         }
+        
+        
     }
     
     enum Number {

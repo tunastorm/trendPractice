@@ -47,7 +47,6 @@ extension UIView {
         set{
             self.layer.shadowOpacity = newValue
         }
-        
     }
     
     @IBInspectable var shadowColor : UIColor {
@@ -65,20 +64,14 @@ extension UIView {
             self.layer.shadowColor = newValue.cgColor
             //그림자의 색을 지정
         }
-        
     }
     
     @IBInspectable var maskToBound : Bool{
-        
         get{
             return self.layer.masksToBounds
         }
-        
         set{
             self.layer.masksToBounds = newValue
         }
-        
     }
-
-    
 }

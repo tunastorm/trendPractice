@@ -63,7 +63,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: AlamofireRequest {
     func setWeeklyTrendData() {
-        getHTTPRequest(URL: TMDB.trendingAPIAllWeek.URL,
+        getHTTPRequest(URL: TMDB.trendingAPIAllWeek.getURL,
                        parameters: MyAuth.trendingParameters,
                        headers: MyAuth.headers,
                        decodingType: Trending.self,
@@ -87,7 +87,7 @@ extension MainViewController: AlamofireRequest {
     }
     
     func setMovieGenreData() {
-        getHTTPRequest(URL: TMDB.genreAPIMovie.URL,
+        getHTTPRequest(URL: TMDB.genreAPIMovie.getURL,
                        headers: MyAuth.headers,
                        decodingType: GenreList.self,
                        callback: {(data: GenreList) -> () in
@@ -97,7 +97,7 @@ extension MainViewController: AlamofireRequest {
     }
     
     func setTVGenreData() {
-        getHTTPRequest(URL: TMDB.genreAPITV.URL,
+        getHTTPRequest(URL: TMDB.genreAPITV.getURL,
                        headers: MyAuth.headers,
                        decodingType: GenreList.self,
                        callback: {(data: GenreList) -> () in
@@ -107,7 +107,7 @@ extension MainViewController: AlamofireRequest {
     }
     
     func setMovieCreditsData(id: Int) {
-        let requestURL = TMDB.movieCreditsAPI.URL.replacingOccurrences(of: "{movie_id}", with: "\(id)")
+        let requestURL = TMDB.movieCreditsAPI.getURL.replacingOccurrences(of: "{movie_id}", with: "\(id)")
         getHTTPRequest(URL: requestURL,
                        parameters: MyAuth.trendingParameters,
                        headers: MyAuth.headers,
@@ -119,7 +119,7 @@ extension MainViewController: AlamofireRequest {
     }
     
     func setTVCreditsData(id: Int) {
-        let requestURL = TMDB.tvSeriesCreditsAPI.URL.replacingOccurrences(of: "{series_id}", with: "\(id)")
+        let requestURL = TMDB.tvSeriesCreditsAPI.getURL.replacingOccurrences(of: "{series_id}", with: "\(id)")
         getHTTPRequest(URL: requestURL,
                        parameters: MyAuth.trendingParameters,
                        headers: MyAuth.headers,
@@ -151,7 +151,7 @@ extension MainViewController: CodeBaseUI {
     
     @objc func goSearchPage() {
         delegate?.nextView = SearchCollectionViewController.self
-        popToRootView(animated: true)
+        popToRootView(animated: false)
     }
 }
 

@@ -11,7 +11,7 @@ import Alamofire
 
 class APIClient {
     typealias onSuccess<T> = ((T) -> Void)
-    typealias onFailure = ((_ error: Error) -> Void)
+    typealias onFailure = ((_ error: AFError) -> Void)
     
     static func request<T>(_ object: T.Type,
                            router: APIRouter,
@@ -25,8 +25,8 @@ class APIClient {
                 case .success:
                     guard let decodedData = response.value else {return}
                     success(decodedData)
-                case .failure(let err):
-                    failure(err)
+                case .failure(let error):
+                    failure(error)
                 }
             }
     }

@@ -60,16 +60,7 @@ extension UIViewController: ViewTransition {
 }
 
 protocol CellTransitionDelegate {
-    
-    func turnBackRootView()
-    
-    func pushAfterViewType<T: UIViewController>(type: T.Type, animated: Bool)
-    
-    func pushChangeSelectView()
-    
-    func popToRootViewFromCell(animated: Bool)
-    
-    func presentAlert(_ alert: UIAlertController, animated: Bool)
+    func pushAfterViewType<T: UIViewController>(type: T.Type, backButton: Bool, animated: Bool, contents: (APIConstants.ContentsType, Int, String) )
 }
 
 

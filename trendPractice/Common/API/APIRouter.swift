@@ -10,48 +10,40 @@ import Foundation
 import Alamofire
 
 enum APIConstants {
-    // MARK: API Endpoint
-//    case trendingAPI
-//    case genreAPI
-//    case creditsAPI
-    case searchAPI
-    
-    // MARK: Base URL
-    var baseURL: URL {
-        switch self {
-//        case .trendingAPI: return URL(string:"https://api.themoviedb.org/3/trending")
-//        case .genreAPI: return URL(string:"https://api.themoviedb.org/3/genre)
-//        case .creditsAPI: return  "https://api.themoviedb.org/3/{MediaType}/{Id}/credits"
-        case .searchAPI: return URL(string:"https://api.themoviedb.org/3/search")!
-        }
-    }
+
     static let token = ""
-}
+    
+    enum HTTPHeaderField {
+        static let authentication = "Authorization"
+        static let contentType = "Content-Type"
+        static let acceptType = "Accept"
+        static let acceptEncoding = "Accept-Encoding"
+        static let xAuthToken = "x-auth-token"
+    }
 
-enum HTTPHeaderField: String {
-    case authentication = "Authorization"
-    case contentType = "Content-Type"
-    case acceptType = "Accept"
-    case acceptEncoding = "Accept-Encoding"
-    case xAuthToken = "x-auth-token"
-}
-
-enum ContentType: String {
-    case json = "application/json"
+    enum ResponseType {
+        static let json = "application/json"
+    }
+    
+    enum ContentsType {
+        case movie
+        case tv
+    }
 }
 
 
 enum APIRouter: URLRequestConvertible {
+ 
     // MARK: Request Types
-    case getSearchMovie
-    case getSearchTV
-//    case getTrendingMovie
-//    case getTrendingTV
+    case similerAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
+    case recommendationsAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
+
     
     // MARK: Methods
     var method: HTTPMethod {
         switch self {
-        case .getSearchMovie, .getSearchTV:
+        case .similerAPI(let contentsType, let contentsId, let page),
+             .recommendationsAPI(let contentsType, let contentsId, let page):
             return .get
         }
     }
@@ -59,43 +51,52 @@ enum APIRouter: URLRequestConvertible {
     // MARK: - Paths
     var path: String {
         switch self {
-        case .getSearchMovie:
-            return "/movie"
-        case .getSearchTV:
-            return "/tv"
+        case  .similerAPI(let contentsType, let contentsId, let page):
+            return "\(contentsType)/\(contentsId)/similar"
+        case .recommendationsAPI(let contentsType, let contentsId, let page):
+            return "\(contentsType)/\(contentsId)/recommendations"
         }
     }
+    
+    static var defaultParameters: Alamofire.Parameters = [
+        "language" : "ko-KR"
+    ]
     
     // MARK: - Parameters
     private var parameters: Parameters? {
         switch self {
-        case .getSearchMovie, .getSearchTV:
-            return MyAuth.searchParameters
+        case  .similerAPI(let contentsType, let contentsId, let page), 
+              .recommendationsAPI(let contentsType, let contentsId, let page):
+            APIRouter.defaultParameters["page"] = page
+            return APIRouter.defaultParameters
         }
     }
+    
+    static var headers: HTTPHeaders = [
+        APIConstants.HTTPHeaderField.authentication : "Bearer \(MyAuth.readAccessToken)",
+        APIConstants.HTTPHeaderField.acceptType : APIConstants.ResponseType.json
+    ]
     
     // MARK: Encodings
     var encoding: ParameterEncoding {
         switch self {
-        case .getSearchMovie, .getSearchTV:
+        case .similerAPI(let contentsType, let contentsId, let page),
+             .recommendationsAPI(let contentsType, let contentsId, let page):
             return URLEncoding.default
         }
     }
     
     // MARK: - URL Request
     func asURLRequest() throws -> URLRequest {
-        var url = APIConstants.searchAPI.baseURL.appendingPathComponent(path)
+        let url = TMDB.baseURL.appendingPathComponent(path)
         var urlRequest = URLRequest(url: url)
         
         urlRequest.method = method
-        
-        urlRequest.setValue(ContentType.json.rawValue,
-                            forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
-        urlRequest.setValue(APIConstants.token,
-                            forHTTPHeaderField: HTTPHeaderField.xAuthToken.rawValue)
+        urlRequest.headers = APIRouter.headers
         
         // Parameters
         if let parameters = parameters {
+            print(#function, "urlRequest: \(urlRequest)")
             return try encoding.encode(urlRequest, with: parameters)
         }
         

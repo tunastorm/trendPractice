@@ -48,7 +48,7 @@ class SearchCollectionViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
         
         return layout
     }
@@ -152,7 +152,7 @@ extension SearchCollectionViewController: CodeBaseUI {
     
     @objc func goMainView() {
         delegate?.nextView = MainViewController.self
-        popToRootView(animated: true)
+        popToRootView(animated: false)
     }
 }
 
@@ -181,7 +181,7 @@ extension SearchCollectionViewController: AlamofireRequest {
     }
     
     func callSearchMovieRequest() {
-        getHTTPRequest(URL: TMDB.searchMovieAPI.URL,
+        getHTTPRequest(URL: TMDB.searchMovieAPI.getURL,
                        parameters: movieParameters,
                        headers: MyAuth.headers,
                        decodingType: SearchResult.self,
@@ -197,16 +197,24 @@ extension SearchCollectionViewController: AlamofireRequest {
                                 self.movieSearchResult = data
                                 self.movieCollectionView.reloadData()
                                 self.movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
-                                                                 at: .left, animated: true)
+                                                                      at: .right, animated: true)
                             } else {
                                 self.movieSearchResult?.results.append(contentsOf: data.results)
                                 self.movieCollectionView.reloadData()
                             }
+                            if self.isInitialSearch, self.searchedWords.count > 0, let lastWord = self.searchedWords.last {
+                                self.movieLabel.text = "최근 검색어 '\(lastWord)' 관련 영화"
+                               
+                            } else {
+                                self.movieLabel.text = "'\(self.movieParameters["query"]!)' 관련 영화"
+                             
+                           }
                        })
     }
     
+    
     func callSearchTVRequest() {
-        getHTTPRequest(URL: TMDB.searchTVAPI.URL,
+        getHTTPRequest(URL: TMDB.searchTVAPI.getURL,
                        parameters: tvParameters,
                        headers: MyAuth.headers,
                        decodingType: SearchResult.self,
@@ -221,18 +229,16 @@ extension SearchCollectionViewController: AlamofireRequest {
                                 self.tvSearchResult = data
                                 self.tvCollectionView.reloadData()
                                 self.tvCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
-                                                                   at: .left, animated: true)
+                                                                   at: .right, animated: true)
                             } else {
                                 self.tvSearchResult?.results.append(contentsOf: data.results)
                                 self.tvCollectionView.reloadData()
                             }
                             
                             if self.isInitialSearch, self.searchedWords.count > 0, let lastWord = self.searchedWords.last {
-                                self.movieLabel.text = "최근 검색어 '\(lastWord)' 관련 영화"
                                 self.tvLabel.text = "최근 검색어 '\(lastWord)' 관련 TV 시리즈"
                                 self.isInitialSearch = false
                             } else {
-                                self.movieLabel.text = "'\(self.movieParameters["query"]!)' 관련 영화"
                                 self.tvLabel.text = "'\(self.tvParameters["query"]!)' 관련 TV 시리즈"
                                 self.isInitialSearch = false
                            }
@@ -298,18 +304,19 @@ extension SearchCollectionViewController: UICollectionViewDelegate, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchMediaCollectionViewCell.identifier,
                                                       for: indexPath) as! SearchMediaCollectionViewCell
         
+        cell.delegate = self
         if collectionView == movieCollectionView {
             if let resultList = movieSearchResult?.results {
                 let data = resultList[indexPath.row]
-                cell.configCell(data)
+                cell.configCell(data, type: APIConstants.ContentsType.movie)
             }
         } else {
             if let resultList = tvSearchResult?.results {
                 let data = resultList[indexPath.row]
-                cell.configCell(data)
+                cell.configCell(data, type: APIConstants.ContentsType.tv)
             }
         }
-    
+       
         return cell
     }
     
@@ -337,5 +344,19 @@ extension SearchCollectionViewController: UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         
     }
-    
+}
+
+extension SearchCollectionViewController: CellTransitionDelegate {
+    func pushAfterViewType<T>(type: T.Type, backButton: Bool, animated: Bool, contents: (APIConstants.ContentsType, Int, String)) where T : UIViewController {
+        
+        switch type {
+        case is DetailViewController.Type:
+            let vc = DetailViewController()
+            vc.contentsType = contents.0
+            vc.contentsId = contents.1
+            vc.contentsName = contents.2
+            pushAfterView(view: vc, backButton: backButton, animated: animated)
+        default: return
+        }
+    }
 }

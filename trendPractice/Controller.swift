@@ -23,17 +23,17 @@ class Controller: UIViewController {
         case is MainViewController.Type:
             let vc = MainViewController()
             vc.delegate = self
-            pushAfterView(view: vc, backButton: false, animated: true)
+            pushAfterView(view: vc, backButton: false, animated: false)
             
         case is SearchCollectionViewController.Type:
             let vc = SearchCollectionViewController()
             vc.delegate = self
-            pushAfterView(view: vc, backButton: true, animated: true)
+            pushAfterView(view: vc, backButton: true, animated: false)
             
         default:
             let vc = MainViewController()
             vc.delegate = self
-            pushAfterView(view: vc, backButton: false, animated: true)
+            pushAfterView(view: vc, backButton: false, animated: false)
         }
     }
 }

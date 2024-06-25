@@ -33,6 +33,8 @@ struct UIResource {
         case detailViewSimilar
         case detailViewRecommand
         
+        case detailViewTitle
+        
         var sign: String {
             switch self {
             case .tag: return "#"
@@ -56,6 +58,7 @@ struct UIResource {
             case .mainCellCast: return "Cast"
             case .detailViewSimilar: return "비슷한 "
             case .detailViewRecommand: return "추천 "
+            case .detailViewTitle: return "포스터"
             default: return "\(self) is Wrong Case for rateTitle"
             }
         }

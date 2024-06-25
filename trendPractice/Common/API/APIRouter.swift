@@ -12,6 +12,7 @@ import Alamofire
 enum APIConstants {
 
     static let token = ""
+    static let includeImageLanguage = "en, jp"
     
     enum HTTPHeaderField {
         static let authentication = "Authorization"
@@ -37,6 +38,8 @@ enum APIRouter: URLRequestConvertible {
     // MARK: Request Types
     case similerAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
     case recommendationsAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
+    case imagesAPI(contentsType: APIConstants.ContentsType, contentsId: Int, includeImageLanguage: String)
+ 
 
     
     // MARK: Methods
@@ -44,6 +47,8 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .similerAPI(let contentsType, let contentsId, let page),
              .recommendationsAPI(let contentsType, let contentsId, let page):
+            return .get
+        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
             return .get
         }
     }
@@ -55,6 +60,8 @@ enum APIRouter: URLRequestConvertible {
             return "\(contentsType)/\(contentsId)/similar"
         case .recommendationsAPI(let contentsType, let contentsId, let page):
             return "\(contentsType)/\(contentsId)/recommendations"
+        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
+            return "\(contentsType)/\(contentsId)/images"
         }
     }
     
@@ -67,8 +74,11 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case  .similerAPI(let contentsType, let contentsId, let page), 
               .recommendationsAPI(let contentsType, let contentsId, let page):
-            APIRouter.defaultParameters["page"] = page
-            return APIRouter.defaultParameters
+            Self.defaultParameters["page"] = page
+            return Self.defaultParameters
+        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
+            Self.defaultParameters["include_image_language"] = includeImageLanguage
+            return Self.defaultParameters
         }
     }
     
@@ -82,6 +92,8 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .similerAPI(let contentsType, let contentsId, let page),
              .recommendationsAPI(let contentsType, let contentsId, let page):
+            return URLEncoding.default
+        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
             return URLEncoding.default
         }
     }

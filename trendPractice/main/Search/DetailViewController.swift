@@ -15,71 +15,77 @@ protocol DetailViewDelegate {
 
 class DetailViewController: UIViewController {
    
-
-    private let model = TMDBModel.shared
+    
     let detailView = DetailView()
+    private let model = TMDBModel.shared
     
     var contentsType: APIConstants.ContentsType?
     var contentsId: Int?
     var contentsName: String?
     
-    var similarItemSize = 0
-    var recommandItemSize = 0
-
-    override func loadView() {
-        self.view = detailView
-    }
+    var resultsList: [[Result]] = [[],[]]
+    var imageList: [Poster] = []
     
+    
+    override func loadView() {
+        view = detailView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        configDetailView()
-        configCollectionView()
-        requestSimilarAPI()
-        requestRecommandationsAPI()
+        configTableView()
+        updateData()
     }
     
-    private func configDetailView() {
-        self.detailView.delegate = self
-        self.detailView.titleLabel.text = contentsName
-        self.detailView.contentsType = contentsType
+    func configTableView() {
+        self.detailView.tableView.delegate = self
+        self.detailView.tableView.dataSource = self
+        self.detailView.tableView.prefetchDataSource = self
+        self.detailView.tableView.tableHeaderView?.backgroundColor = .white
+        
+        self.detailView.tableView.register(DetailTableViewCell.self,
+                           forCellReuseIdentifier: DetailTableViewCell.identifier)
     }
     
-    private func configCollectionView() {
-        let similarCollectionView = self.detailView.similarCollectionView
-        let recommandCollectionView = self.detailView.recommandCollectionView
-        similarCollectionView.delegate = self
-        similarCollectionView.dataSource = self
-        similarCollectionView.prefetchDataSource = self
-        similarCollectionView.register(DetailCollectionViewCell.self,
-                                forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
-        recommandCollectionView.delegate = self
-        recommandCollectionView.dataSource = self
-        recommandCollectionView.prefetchDataSource = self
-        recommandCollectionView.register(DetailCollectionViewCell.self,
-                                  forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
-    }
-    
-    private func requestSimilarAPI() {
-        guard let contentsType, let contentsId, let contentsName else {return}
-        model.requestSimilarAPI(contentsType: contentsType, contentsId: contentsId) { results in
-//            print(#function, contentsType, contentsId, contentsName)
-            self.detailView.similarResults = results
-            self.similarItemSize = results.count
+    private func updateData() {
+        guard let contentsType, let contentsId else {return}
+        
+        let group = DispatchGroup()
+        
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            self.model.updateSimilar(contentsType: contentsType, contentsId: contentsId) { response in
+                self.model.setNewResponse(oldIndex: 0, response: response)
+                self.resultsList[0] = self.model.getSimilarResults()
+                group.leave()
+            }
         }
-    }
-    
-    private func scrollSimilarAPI() {
-        requestSimilarAPI()
-    }
-    
-    private func requestRecommandationsAPI() {
-        guard let contentsType, let contentsId, let contentsName else {return}
-        model.requestRecommandationsAPI(contentsType: contentsType, contentsId: contentsId) { results in
-            print(#function, contentsType, contentsId, contentsName)
-            self.detailView.recommandResults = results
-            self.recommandItemSize = results.count
+        
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            self.model.updateRecommandations(contentsType: contentsType, contentsId: contentsId) { response in
+                self.model.setNewResponse(oldIndex: 1, response: response)
+                self.resultsList[1] = self.model.getRecommandationsResults()
+                group.leave()
+            }
+        }
+        
+        group.enter()
+        DispatchQueue.global().async(group: group)  {
+            self.model.updateImages(contentsType: contentsType, contentsId: contentsId) { response in
+                self.model.setNewResponse(oldIndex: 0, response: response)
+                self.imageList = self.model.getPosters()
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.detailView.tableView.reloadData()
         }
     }
 }
 
 
+extension DetailViewController: DetailViewDelegate {
+        
+}

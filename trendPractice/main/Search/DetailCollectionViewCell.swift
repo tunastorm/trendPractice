@@ -57,10 +57,22 @@ class DetailCollectionViewCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
     }
     
-    func configCell(data: Result, contentsType: APIConstants.ContentsType) {
+    func configCell<T: Decodable>(data: T, contentsType: APIConstants.ContentsType) {
         self.contentsType = contentsType
+
         let baseURL = UIResource.Text.imageBaseURL
-        let url = URL(string: baseURL + data.posterPath)
+        
+        var url: URL?
+        switch data {
+        case is Result:
+            let result = data as! Result
+            url = URL(string: baseURL + result.posterPath)
+        case is Poster:
+            let poster = data as! Poster
+            url = URL(string: baseURL + poster.path)
+        default: return
+        }
+        guard let url else {return}
         imageView.kf.setImage(with: url)
     }
 }

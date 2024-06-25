@@ -13,67 +13,87 @@ class TMDBModel {
     
     private init () {}
     
-    private var similarResponse = TMDBResponse(page: 1, results: [], totalPages: 1, totalResults: 0)
-    private var recommandResponse = TMDBResponse(page: 1, results: [], totalPages: 1, totalResults: 0)
-    private var pages = ["similar": 1, "recommandations": 1]
+    private var TMDBList = [
+        TMDBResponse(page: 1, results: [], totalPages: 1, totalResults: 0),
+        TMDBResponse(page: 1, results: [], totalPages: 1, totalResults: 0),
+    ]
+    
+    private var imagesList = [
+        ImagesResponse(id: 0, posters: [])
+    ]
+    
+    private var pages = [1, 1]
     
     
-    func requestSimilarAPI(contentsType: APIConstants.ContentsType, contentsId: Int, updateHandler: @escaping ([Result]) -> Void) {
-        guard let page = pages["similar"] else {return}
-        print(#function, page)
-        let router = APIRouter.similerAPI(contentsType: contentsType, contentsId: contentsId, page: page)
-        APIClient.request(TMDBResponse.self, router: router,
-                          success: { self.complitionHandler($0, router, updateHandler) },
+    func requestAPI<T:Decodable>(responseType: T.Type, router: APIRouter, completionHandler: @escaping (T) -> Void) {
+        APIClient.request(responseType.self, 
+                          router: router,
+                          success: completionHandler,
                           failure: errorHandler)
     }
     
-    func requestRecommandationsAPI(contentsType: APIConstants.ContentsType, contentsId: Int, updateHandler: @escaping ([Result]) -> Void) {
-        guard let page = pages["recommandations"] else {return}
-        print(#function, page)
-        let router = APIRouter.recommendationsAPI(contentsType: contentsType, contentsId: contentsId, page: page)
-        APIClient.request(TMDBResponse.self, router: router,
-                          success: { self.complitionHandler($0, router, updateHandler) },
-                          failure: errorHandler)
+    func updateSimilar(contentsType: APIConstants.ContentsType, 
+                       contentsId: Int, completionHandler: @escaping (TMDBResponse) -> Void) {
+        let router = APIRouter.similerAPI(contentsType: contentsType , contentsId: contentsId, page: pages[0])
+        requestAPI(responseType: TMDBResponse.self, 
+                   router: router, completionHandler: completionHandler)
     }
     
-    private func complitionHandler(_ response: TMDBResponse, _ router: APIRouter, _ updateHandler: ([Result]) -> Void) {
-//        print(#function, response)
-        switch router {
-        case .similerAPI(let contentsType, let movieId, let page):
-            similarResponse = setNewResponse(oldResponse: similarResponse, response: response)
-            updateHandler(similarResponse.results)
-        case .recommendationsAPI(let contentsType, let movieId, let page):
-            recommandResponse = setNewResponse(oldResponse: recommandResponse, response: response)
-            print(#function, recommandResponse)
-            updateHandler(recommandResponse.results)
+    func updateRecommandations(contentsType: APIConstants.ContentsType, 
+                               contentsId: Int, completionHandler: @escaping (TMDBResponse) -> Void) {
+        let router = APIRouter.recommendationsAPI(contentsType: contentsType, contentsId: contentsId, page: pages[1])
+        requestAPI(responseType: TMDBResponse.self, 
+                   router: router, completionHandler: completionHandler)
+    }
+    
+    func updateImages(contentsType: APIConstants.ContentsType,
+                      contentsId: Int, completionHandler: @escaping (ImagesResponse) -> Void) {
+        let router = APIRouter.imagesAPI(contentsType: contentsType, contentsId: contentsId,
+                                         includeImageLanguage: APIConstants.includeImageLanguage)
+        requestAPI(responseType: ImagesResponse.self, 
+                   router: router, completionHandler: completionHandler)
+    }
+    
+    func clearResponse<T:Decodable>(oldIndex: Int, responseType: T.Type) {
+        switch responseType {
+        case is TMDBResponse.Type:
+            TMDBList[oldIndex] = TMDBResponse(page: 1, results: [], totalPages: 1, totalResults: 0)
+        case is ImagesResponse.Type:
+            imagesList[oldIndex] = ImagesResponse(id: 0, posters: [])
+        default: return
         }
     }
     
-    private func setNewResponse(oldResponse: TMDBResponse, response: TMDBResponse) -> TMDBResponse {
-        var newResponse = oldResponse
-        newResponse.page = response.page
-        newResponse.results.append(contentsOf: response.results)
-        newResponse.totalPages = response.totalPages
-        newResponse.totalResults = response.totalResults
-        return newResponse
+    func setNewResponse<T:Decodable>(oldIndex: Int, response: T) {
+       
+        switch T.self {
+        case is TMDBResponse.Type:
+            let newResponse = response as! TMDBResponse
+            TMDBList[oldIndex].page = newResponse.page
+            TMDBList[oldIndex].results.append(contentsOf: newResponse.results)
+            TMDBList[oldIndex].totalPages = newResponse.totalPages
+            TMDBList[oldIndex].totalResults = newResponse.totalResults
+        case is ImagesResponse.Type:
+            let newResponse = response as! ImagesResponse
+            imagesList[oldIndex].id = newResponse.id
+            imagesList[oldIndex].posters.append(contentsOf: newResponse.posters)
+        default: return
+        }
     }
     
-    private func pageNation(router: APIRouter) -> Bool {
-        switch router {
-        case .similerAPI(let contentsType, let contentsId, let page):
-            guard let page = pages["similar"], page < similarResponse.totalPages else {return false}
-            pages["similar"] = page + 1
-            return true
-        case .recommendationsAPI(let contentsType, let contentsId, let page):
-            guard let page = pages["recommandations"], page < recommandResponse.totalPages else {return false}
-            pages["recommandations"] = page + 1
-            return true
-        }
-        return false
+    func getSimilarResults() -> [Result] {
+        return TMDBList[0].results
+    }
+    
+    func getRecommandationsResults() -> [Result] {
+        return TMDBList[1].results
+    }
+    
+    func getPosters() -> [Poster] {
+        return imagesList[0].posters
     }
     
     private func errorHandler(error: AFError) {
        print(error)
     }
-    
 }

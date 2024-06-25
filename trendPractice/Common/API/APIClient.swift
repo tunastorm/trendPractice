@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 
+
 class APIClient {
     typealias onSuccess<T> = ((T) -> Void)
     typealias onFailure = ((_ error: AFError) -> Void)

@@ -125,6 +125,7 @@
 			children = (
 				BCA5D1E52C16C937005FA263 /* Common */,
 				BCA5D1F02C16DA0F005FA263 /* main */,
+				BCA5D2212C183801005FA263 /* Search */,
 				BCA5D1D12C16C89C005FA263 /* AppDelegate.swift */,
 				BCA5D1D32C16C89C005FA263 /* SceneDelegate.swift */,
 				BCA5D1D52C16C89C005FA263 /* Controller.swift */,
@@ -156,7 +157,6 @@
 				BCA5D1F12C16DA33005FA263 /* MainViewController.swift */,
 				BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */,
 				BCA5D20F2C177993005FA263 /* RoundShadowView.swift */,
-				BCA5D2212C183801005FA263 /* Search */,
 			);
 			path = main;
 			sourceTree = "<group>";

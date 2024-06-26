@@ -40,8 +40,7 @@ class DetailView: UIView {
     
     private func configUI() {
         self.backgroundColor = .white
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
-        tableView.headerView(forSection: 0)?.textLabel?.font = .boldSystemFont(ofSize: 30)
-        tableView.headerView(forSection: 0)?.textLabel?.textColor = .black
     }
 }

@@ -41,8 +41,6 @@ class DetailViewController: UIViewController {
         self.detailView.tableView.delegate = self
         self.detailView.tableView.dataSource = self
         self.detailView.tableView.prefetchDataSource = self
-        self.detailView.tableView.tableHeaderView?.backgroundColor = .white
-        
         self.detailView.tableView.register(DetailTableViewCell.self,
                            forCellReuseIdentifier: DetailTableViewCell.identifier)
     }
@@ -54,6 +52,7 @@ class DetailViewController: UIViewController {
         
         group.enter()
         DispatchQueue.global().async(group: group) {
+            self.model.clearResponse(oldIndex: 0, responseType: Result.self)
             self.model.updateSimilar(contentsType: contentsType, contentsId: contentsId) { response in
                 self.model.setNewResponse(oldIndex: 0, response: response)
                 self.resultsList[0] = self.model.getSimilarResults()
@@ -63,6 +62,7 @@ class DetailViewController: UIViewController {
         
         group.enter()
         DispatchQueue.global().async(group: group) {
+            self.model.clearResponse(oldIndex: 1, responseType: Result.self)
             self.model.updateRecommandations(contentsType: contentsType, contentsId: contentsId) { response in
                 self.model.setNewResponse(oldIndex: 1, response: response)
                 self.resultsList[1] = self.model.getRecommandationsResults()
@@ -72,6 +72,7 @@ class DetailViewController: UIViewController {
         
         group.enter()
         DispatchQueue.global().async(group: group)  {
+            self.model.clearResponse(oldIndex: 0, responseType: ImagesResponse.self)
             self.model.updateImages(contentsType: contentsType, contentsId: contentsId) { response in
                 self.model.setNewResponse(oldIndex: 0, response: response)
                 self.imageList = self.model.getPosters()

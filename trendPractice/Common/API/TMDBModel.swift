@@ -23,35 +23,43 @@ class TMDBModel {
     ]
     
     private var pages = [1, 1]
+
     
-    
-    func requestAPI<T:Decodable>(responseType: T.Type, router: APIRouter, completionHandler: @escaping (T) -> Void) {
-        APIClient.request(responseType.self, 
+    func requestTMDBAPI<T:Decodable>(responseType: T.Type, router: APIRouter,
+                                     completionHandler: @escaping (T) -> Void) {
+        APIClient.request(responseType.self,
                           router: router,
                           success: completionHandler,
                           failure: errorHandler)
     }
     
-    func updateSimilar(contentsType: APIConstants.ContentsType, 
-                       contentsId: Int, completionHandler: @escaping (TMDBResponse) -> Void) {
-        let router = APIRouter.similerAPI(contentsType: contentsType , contentsId: contentsId, page: pages[0])
-        requestAPI(responseType: TMDBResponse.self, 
-                   router: router, completionHandler: completionHandler)
+    func updateTrending(contentsType: APIConstants.ContentsType, timeWindow: APIConstants.TimeWindow, 
+                        complitionHandler: @escaping (TMDBResponse) -> Void) {
+        requestTMDBAPI(responseType: TMDBResponse.self,
+                   router: .trendingAPI(contentsType: contentsType, timeWindow: timeWindow),
+                   completionHandler: complitionHandler)
     }
     
-    func updateRecommandations(contentsType: APIConstants.ContentsType, 
-                               contentsId: Int, completionHandler: @escaping (TMDBResponse) -> Void) {
-        let router = APIRouter.recommendationsAPI(contentsType: contentsType, contentsId: contentsId, page: pages[1])
-        requestAPI(responseType: TMDBResponse.self, 
-                   router: router, completionHandler: completionHandler)
+    func updateSimilar(contentsType: APIConstants.ContentsType, contentsId: Int,
+                       completionHandler: @escaping (TMDBResponse) -> Void) {
+        requestTMDBAPI(responseType: TMDBResponse.self,
+                   router: .similerAPI(contentsType: contentsType, contentsId: contentsId, page: pages[0]), 
+                   completionHandler: completionHandler)
     }
     
-    func updateImages(contentsType: APIConstants.ContentsType,
-                      contentsId: Int, completionHandler: @escaping (ImagesResponse) -> Void) {
-        let router = APIRouter.imagesAPI(contentsType: contentsType, contentsId: contentsId,
-                                         includeImageLanguage: APIConstants.includeImageLanguage)
-        requestAPI(responseType: ImagesResponse.self, 
-                   router: router, completionHandler: completionHandler)
+    func updateRecommandations(contentsType: APIConstants.ContentsType, contentsId: Int,
+                               completionHandler: @escaping (TMDBResponse) -> Void) {
+        requestTMDBAPI(responseType: TMDBResponse.self,
+                       router: .recommendationsAPI(contentsType: contentsType, contentsId: contentsId, page: pages[1]),
+                       completionHandler: completionHandler)
+    }
+    
+    func updateImages(contentsType: APIConstants.ContentsType, contentsId: Int,
+                      completionHandler: @escaping (ImagesResponse) -> Void) {
+        requestTMDBAPI(responseType: ImagesResponse.self,
+                   router: .imagesAPI(contentsType: contentsType, contentsId: contentsId,
+                                      includeImageLanguage: APIConstants.includeImageLanguage), 
+                   completionHandler: completionHandler)
     }
     
     func clearResponse<T:Decodable>(oldIndex: Int, responseType: T.Type) {
@@ -65,7 +73,6 @@ class TMDBModel {
     }
     
     func setNewResponse<T:Decodable>(oldIndex: Int, response: T) {
-       
         switch T.self {
         case is TMDBResponse.Type:
             let newResponse = response as! TMDBResponse
@@ -93,7 +100,7 @@ class TMDBModel {
         return imagesList[0].posters
     }
     
-    private func errorHandler(error: AFError) {
-       print(error)
+    func errorHandler(error:Error) {
+      
     }
 }

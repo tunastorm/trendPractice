@@ -71,7 +71,7 @@ extension MainViewController: AlamofireRequest {
                            self.dataList = data.results
                            self.setIdDict()
                            self.tableView.reloadData()
-                        })
+                       })
     }
     
     func setIdDict() {

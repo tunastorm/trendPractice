@@ -26,14 +26,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource, UITa
         cell.collectionView.register(DetailCollectionViewCell.self,
                       forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
         cell.collectionView.tag = indexPath.row
+        cell.collectionView.backgroundColor = .clear
         
         if let contentsType, indexPath.row < resultsList.count {
             cell.configCell(contentsType: contentsType, rowIndex: indexPath.row)
         } else {
             cell.titleLabel.text = UIResource.Text.detailViewTitle.label
         }
-        
-        
         
         cell.collectionView.reloadData()
         

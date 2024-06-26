@@ -12,7 +12,7 @@ class DetailTableViewCell: UITableViewCell {
     
     let titleLabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 17)
+        view.font = .boldSystemFont(ofSize: 16)
         view.textColor = .black
         return view
     }()
@@ -61,7 +61,7 @@ class DetailTableViewCell: UITableViewCell {
     }
     
     func configView() {
-
+       self.backgroundColor = .clear
     }
     
     func configCell(contentsType: APIConstants.ContentsType,rowIndex: Int) {

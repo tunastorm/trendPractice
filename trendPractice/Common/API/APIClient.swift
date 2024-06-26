@@ -21,12 +21,15 @@ class APIClient {
     Decodable {
         print(#function, router)
         AF.request(router)
+            .validate(statusCode: 200..<600)
             .responseDecodable(of: object) { response in
                 switch response.result {
                 case .success:
                     guard let decodedData = response.value else {return}
+                    dump(decodedData)
                     success(decodedData)
                 case .failure(let error):
+                    dump(error)
                     failure(error)
                 }
             }

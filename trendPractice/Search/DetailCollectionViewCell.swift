@@ -17,7 +17,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
     
     private var radiousValue: CGFloat = UIResource.Number.mainViewVideoUIView.cornerRadious
     
-    let shadowView = UIView()
     let imageView = UIImageView()
     
     override init(frame: CGRect) {
@@ -32,27 +31,18 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
     
     func configHierarchy() {
-        contentView.addSubview(shadowView)
-        shadowView.addSubview(imageView)
+        contentView.addSubview(imageView)
     }
     
     func configLayout() {
-        shadowView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+       
         imageView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
     }
     
     func configUI() {
-        shadowView.layer.backgroundColor = UIColor.clear.cgColor
-        shadowView.layer.shadowColor = UIColor.black.cgColor
-        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
-        shadowView.layer.shadowOpacity = 0.1
-        shadowView.layer.shadowRadius = UIResource.Number.mainViewVideoUIView.shadowCornerRadious
-
+        self.backgroundColor = .clear
         imageView.layer.cornerRadius = radiousValue
         imageView.layer.masksToBounds = true
     }

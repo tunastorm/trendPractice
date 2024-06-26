@@ -14,7 +14,6 @@ struct ImagesResponse: Decodable {
     var posters: [Poster]
 }
 
-
 struct Backdrop: Decodable {
     var path: String
     
@@ -22,7 +21,6 @@ struct Backdrop: Decodable {
         case path = "file_path"
     }
 }
-
 
 struct Poster: Decodable {
     var path: String

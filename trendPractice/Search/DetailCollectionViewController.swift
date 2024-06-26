@@ -34,7 +34,6 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         print(#function, "3")
-   
         return cell
     }
     

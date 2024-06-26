@@ -11,6 +11,7 @@ import Alamofire
 
 enum APIConstants {
 
+    static let authentication = "Bearer \(MyAuth.readAccessToken)"
     static let token = ""
     static let includeImageLanguage = "en, jp"
     
@@ -22,7 +23,7 @@ enum APIConstants {
         static let xAuthToken = "x-auth-token"
     }
 
-    enum ResponseType {
+    enum ContentType {
         static let json = "application/json"
     }
     
@@ -30,25 +31,27 @@ enum APIConstants {
         case movie
         case tv
     }
+    
+    enum TimeWindow {
+        case day
+        case week
+    }
 }
 
 
 enum APIRouter: URLRequestConvertible {
  
     // MARK: Request Types
+    case trendingAPI(contentsType: APIConstants.ContentsType,timeWindow: APIConstants.TimeWindow)
     case similerAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
     case recommendationsAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
     case imagesAPI(contentsType: APIConstants.ContentsType, contentsId: Int, includeImageLanguage: String)
- 
-
     
+
     // MARK: Methods
     var method: HTTPMethod {
         switch self {
-        case .similerAPI(let contentsType, let contentsId, let page),
-             .recommendationsAPI(let contentsType, let contentsId, let page):
-            return .get
-        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
+        case .trendingAPI, .imagesAPI, .similerAPI, .recommendationsAPI:
             return .get
         }
     }
@@ -56,7 +59,9 @@ enum APIRouter: URLRequestConvertible {
     // MARK: - Paths
     var path: String {
         switch self {
-        case  .similerAPI(let contentsType, let contentsId, let page):
+        case .trendingAPI(let contentsType, let timeWindow):
+            return "trending/\(contentsType)/\(timeWindow)"
+        case .similerAPI(let contentsType, let contentsId, let page):
             return "\(contentsType)/\(contentsId)/similar"
         case .recommendationsAPI(let contentsType, let contentsId, let page):
             return "\(contentsType)/\(contentsId)/recommendations"
@@ -72,8 +77,10 @@ enum APIRouter: URLRequestConvertible {
     // MARK: - Parameters
     private var parameters: Parameters? {
         switch self {
-        case  .similerAPI(let contentsType, let contentsId, let page), 
-              .recommendationsAPI(let contentsType, let contentsId, let page):
+        case .trendingAPI:
+            return APIRouter.defaultParameters
+        case .similerAPI(let contentsType, let contentsId, let page),
+             .recommendationsAPI(let contentsType, let contentsId, let page):
             Self.defaultParameters["page"] = page
             return Self.defaultParameters
         case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
@@ -83,17 +90,14 @@ enum APIRouter: URLRequestConvertible {
     }
     
     static var headers: HTTPHeaders = [
-        APIConstants.HTTPHeaderField.authentication : "Bearer \(MyAuth.readAccessToken)",
-        APIConstants.HTTPHeaderField.acceptType : APIConstants.ResponseType.json
+        APIConstants.HTTPHeaderField.authentication : APIConstants.authentication,
+        APIConstants.HTTPHeaderField.acceptType : APIConstants.ContentType.json
     ]
     
     // MARK: Encodings
     var encoding: ParameterEncoding {
         switch self {
-        case .similerAPI(let contentsType, let contentsId, let page),
-             .recommendationsAPI(let contentsType, let contentsId, let page):
-            return URLEncoding.default
-        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
+        case .trendingAPI, .similerAPI, .recommendationsAPI, .imagesAPI:
             return URLEncoding.default
         }
     }
@@ -104,7 +108,7 @@ enum APIRouter: URLRequestConvertible {
         var urlRequest = URLRequest(url: url)
         
         urlRequest.method = method
-        urlRequest.headers = APIRouter.headers
+        urlRequest.headers = Self.headers
         
         // Parameters
         if let parameters = parameters {

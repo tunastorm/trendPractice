@@ -33,7 +33,6 @@
 		BCA5D1F82C16DA5C005FA263 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BCA5D1F72C16DA5C005FA263 /* Kingfisher */; };
 		BCA5D1FB2C16DA67005FA263 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BCA5D1FA2C16DA67005FA263 /* SnapKit */; };
 		BCA5D1FE2C16DA71005FA263 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BCA5D1FD2C16DA71005FA263 /* Alamofire */; };
-		BCA5D2002C16DAB6005FA263 /* AlamofireRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */; };
 		BCA5D2032C170EF3005FA263 /* Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2022C170EF3005FA263 /* Trending.swift */; };
 		BCA5D2052C17596C005FA263 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */; };
 		BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2062C175AE3005FA263 /* UIResource.swift */; };
@@ -73,7 +72,6 @@
 		BCA5D1EC2C16CFAB005FA263 /* ReusableIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableIdentifier.swift; sourceTree = "<group>"; };
 		BCA5D1EE2C16CFC9005FA263 /* ViewTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTransition.swift; sourceTree = "<group>"; };
 		BCA5D1F12C16DA33005FA263 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireRequest.swift; sourceTree = "<group>"; };
 		BCA5D2022C170EF3005FA263 /* Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trending.swift; sourceTree = "<group>"; };
 		BCA5D2042C17596C005FA263 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		BCA5D2062C175AE3005FA263 /* UIResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResource.swift; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				BCA5D1EA2C16CF8A005FA263 /* CodeBaseUI.swift */,
 				BCA5D1EC2C16CFAB005FA263 /* ReusableIdentifier.swift */,
 				BCA5D1EE2C16CFC9005FA263 /* ViewTransition.swift */,
-				BCA5D1FF2C16DAB6005FA263 /* AlamofireRequest.swift */,
 				BCA5D2062C175AE3005FA263 /* UIResource.swift */,
 				BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */,
 			);
@@ -306,7 +303,6 @@
 				BC9F6DD12C29C1C700D11B98 /* DetailView.swift in Sources */,
 				BCA5D2232C18383E005FA263 /* Search.swift in Sources */,
 				BCA5D1D62C16C89C005FA263 /* Controller.swift in Sources */,
-				BCA5D2002C16DAB6005FA263 /* AlamofireRequest.swift in Sources */,
 				BCA5D1D22C16C89C005FA263 /* AppDelegate.swift in Sources */,
 				BC9F6DC92C298E0200D11B98 /* TMDBResponse.swift in Sources */,
 				BC9F6DCF2C299A9C00D11B98 /* TMDBModel.swift in Sources */,

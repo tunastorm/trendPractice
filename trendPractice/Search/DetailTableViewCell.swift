@@ -64,7 +64,7 @@ class DetailTableViewCell: UITableViewCell {
        self.backgroundColor = .clear
     }
     
-    func configCell(contentsType: APIConstants.ContentsType,rowIndex: Int) {
+    func configCell(contentsType: APIConstants.MediaType,rowIndex: Int) {
       
         let baseTitle = rowIndex == 0 ? UIResource.Text.detailViewSimilar.label : UIResource.Text.detailViewRecommand.label
         titleLabel.text = baseTitle + String(describing: contentsType)

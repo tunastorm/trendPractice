@@ -9,19 +9,9 @@ import Foundation
 
 
 
-struct GenreList: Decodable {
+struct GenreResponse: Decodable {
     let genres: [Genre]
-    
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.genres = try container.decode([Genre].self, forKey: .genres)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case genres
-    }
 }
-
 
 struct Genre: Decodable {
     let id : Int

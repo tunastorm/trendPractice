@@ -24,42 +24,11 @@ class TMDBModel {
     
     private var pages = [1, 1]
 
-    
-    func requestTMDBAPI<T:Decodable>(responseType: T.Type, router: APIRouter,
-                                     completionHandler: @escaping (T) -> Void) {
+    func requestTMDB<T:Decodable>(responseType: T.Type, router: APIRouter,
+                                     completionHandler: @escaping (T?, AFError?) -> Void) {
         APIClient.request(responseType.self,
                           router: router,
-                          success: completionHandler,
-                          failure: errorHandler)
-    }
-    
-    func updateTrending(contentsType: APIConstants.ContentsType, timeWindow: APIConstants.TimeWindow, 
-                        complitionHandler: @escaping (TMDBResponse) -> Void) {
-        requestTMDBAPI(responseType: TMDBResponse.self,
-                   router: .trendingAPI(contentsType: contentsType, timeWindow: timeWindow),
-                   completionHandler: complitionHandler)
-    }
-    
-    func updateSimilar(contentsType: APIConstants.ContentsType, contentsId: Int,
-                       completionHandler: @escaping (TMDBResponse) -> Void) {
-        requestTMDBAPI(responseType: TMDBResponse.self,
-                   router: .similerAPI(contentsType: contentsType, contentsId: contentsId, page: pages[0]), 
-                   completionHandler: completionHandler)
-    }
-    
-    func updateRecommandations(contentsType: APIConstants.ContentsType, contentsId: Int,
-                               completionHandler: @escaping (TMDBResponse) -> Void) {
-        requestTMDBAPI(responseType: TMDBResponse.self,
-                       router: .recommendationsAPI(contentsType: contentsType, contentsId: contentsId, page: pages[1]),
-                       completionHandler: completionHandler)
-    }
-    
-    func updateImages(contentsType: APIConstants.ContentsType, contentsId: Int,
-                      completionHandler: @escaping (ImagesResponse) -> Void) {
-        requestTMDBAPI(responseType: ImagesResponse.self,
-                   router: .imagesAPI(contentsType: contentsType, contentsId: contentsId,
-                                      includeImageLanguage: APIConstants.includeImageLanguage), 
-                   completionHandler: completionHandler)
+                          completionHandler: completionHandler)
     }
     
     func clearResponse<T:Decodable>(oldIndex: Int, responseType: T.Type) {
@@ -100,7 +69,7 @@ class TMDBModel {
         return imagesList[0].posters
     }
     
-    func errorHandler(error:Error) {
-      
+    func errorHandler(error: AFError) {
+        
     }
 }

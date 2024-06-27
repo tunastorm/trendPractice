@@ -60,7 +60,7 @@ extension UIViewController: ViewTransition {
 }
 
 protocol CellTransitionDelegate {
-    func pushAfterViewType<T: UIViewController>(type: T.Type, backButton: Bool, animated: Bool, contents: (APIConstants.ContentsType, Int, String) )
+    func pushAfterViewType<T: UIViewController>(type: T.Type, backButton: Bool, animated: Bool, contents: (APIConstants.MediaType, Int, String) )
 }
 
 

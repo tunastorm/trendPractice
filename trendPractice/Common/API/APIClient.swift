@@ -11,13 +11,11 @@ import Alamofire
 
 
 class APIClient {
-    typealias onSuccess<T> = ((T) -> Void)
-    typealias onFailure = ((_ error: AFError) -> Void)
+    typealias completionHandler<T> = (T?, AFError?) -> Void
     
     static func request<T>(_ object: T.Type,
                            router: APIRouter,
-                           success: @escaping onSuccess<T>,
-                           failure: @escaping onFailure) where T:
+                           completionHandler: @escaping completionHandler<T>) where T:
     Decodable {
         print(#function, router)
         AF.request(router)
@@ -27,10 +25,10 @@ class APIClient {
                 case .success:
                     guard let decodedData = response.value else {return}
                     dump(decodedData)
-                    success(decodedData)
+                    completionHandler(decodedData, nil)
                 case .failure(let error):
                     dump(error)
-                    failure(error)
+                    completionHandler(nil, error)
                 }
             }
     }

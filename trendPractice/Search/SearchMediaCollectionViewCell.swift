@@ -15,7 +15,7 @@ class SearchMediaCollectionViewCell: UICollectionViewCell {
     
     let shadowView = UIView()
     let imageView = UIImageView()
-    var contentsType: APIConstants.ContentsType?
+    var contentsType: APIConstants.MediaType?
     var contentsName: String?
     
     override init(frame: CGRect) {
@@ -29,7 +29,7 @@ class SearchMediaCollectionViewCell: UICollectionViewCell {
         fatalError("warning!!!!!!!!!!!!!")
     }
     
-    func configCell(_ data: Result, type: APIConstants.ContentsType) {
+    func configCell(_ data: Result, type: APIConstants.MediaType) {
         print(#function, type)
         self.contentsType = type
         self.contentsName = data.title

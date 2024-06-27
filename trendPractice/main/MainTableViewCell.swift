@@ -62,6 +62,7 @@ class MainTableViewCell: UITableViewCell {
         switch data.mediaType {
         case .movie: titleText = data.title ?? ""
         case .tv: titleText = data.name ?? ""
+        default: titleText = ""
         }
         
         videoView.videoTitleLabel.text = titleText

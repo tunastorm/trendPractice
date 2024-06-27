@@ -13,15 +13,15 @@ import Then
 
 class MainViewController: UIViewController {
     
+    let model = TMDBModel.shared
+    
     var delegate: Controller?
     
     var dataList: [Result]?
-    var genreDict: [Result.MediaType:[Genre]] = [Result.MediaType.movie: [],
-                                                 Result.MediaType.tv: []]
     
-    var movieCastDict: [Int:[Cast]] = [:]
-    var tvCastDict: [Int:[Cast]] = [:]
-    
+    var genreDict: [APIConstants.MediaType : [Genre]] = [.movie: [], .tv: []]
+    var castDict: [APIConstants.MediaType : [Int:[Cast]]] = [.movie: [:], .tv: [:]]
+
     let tableView = UITableView().then {
         $0.separatorInset = .zero
         $0.separatorStyle = .none
@@ -30,18 +30,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        if dataList == nil {
-            setWeeklyTrendData()
-        }
-        
-        if genreDict[Result.MediaType.movie]?.count == 0 {
-            setMovieGenreData()
-        }
-        
-        if genreDict[Result.MediaType.tv]?.count == 0 {
-            setTVGenreData()
-        }
-    
+        setData()
         configTableViewSetting()
         configHierarchy()
         configLayout()
@@ -59,75 +48,61 @@ class MainViewController: UIViewController {
         tableView.register(MainTableViewCell.self,
                            forCellReuseIdentifier: MainTableViewCell.identifier)
     }
-}
-
-extension MainViewController: AlamofireRequest {
-    func setWeeklyTrendData() {
-        getHTTPRequest(URL: TMDB.trendingAPIAllWeek.getURL,
-                       parameters: MyAuth.trendingParameters,
-                       headers: MyAuth.headers,
-                       decodingType: Trending.self,
-                       callback: { (data: Trending) -> () in
-                           self.dataList = data.results
-                           self.setIdDict()
-                           self.tableView.reloadData()
-                       })
-    }
     
-    func setIdDict() {
-        guard let dataList else {return}
-        for result in dataList {
-            switch result.mediaType {
-            case .movie:
-                movieCastDict[result.id] = []
-            case .tv:
-                tvCastDict[result.id] = []
+    func setData() {
+        let group = DispatchGroup()
+        let trending = APIRouter.trendingAPI(contentsType: .all, timeWindow: .week)
+        let movieGenre = APIRouter.genreAPI(contentsType: .movie)
+        let tvGenre = APIRouter.genreAPI(contentsType: .tv)
+        
+        group.enter()
+        model.requestTMDB(responseType: TMDBResponse.self, router: trending) { trending, error in
+            guard error == nil, let trending else {
+                print(#function, error)
+                group.leave()
+                return
             }
+            self.dataList = trending.results
+            group.leave()
+        }
+        group.enter()
+        model.requestTMDB(responseType: GenreResponse.self, router: movieGenre) { movieGenre, error in
+            guard error == nil, let movieGenre else {
+                print(#function, error)
+                group.leave()
+                return
+            }
+            self.genreDict[.movie] = movieGenre.genres
+            print(#function, self.genreDict)
+            group.leave()
+        }
+        group.enter()
+        model.requestTMDB(responseType: GenreResponse.self, router: tvGenre) { tvGenre, error in
+            guard error == nil, let tvGenre else {
+                print(#function, error)
+                group.leave()
+                return
+            }
+            self.genreDict[.tv] = tvGenre.genres
+            print(#function, self.genreDict)
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            self.tableView.reloadData()
         }
     }
     
-    func setMovieGenreData() {
-        getHTTPRequest(URL: TMDB.genreAPIMovie.getURL,
-                       headers: MyAuth.headers,
-                       decodingType: GenreList.self,
-                       callback: {(data: GenreList) -> () in
-                            self.genreDict[Result.MediaType.movie] = data.genres
-                            self.tableView.reloadData()
-                       })
-    }
-    
-    func setTVGenreData() {
-        getHTTPRequest(URL: TMDB.genreAPITV.getURL,
-                       headers: MyAuth.headers,
-                       decodingType: GenreList.self,
-                       callback: {(data: GenreList) -> () in
-                           self.genreDict[Result.MediaType.tv] = data.genres
-                           self.tableView.reloadData()
-                       })
-    }
-    
-    func setMovieCreditsData(id: Int) {
-        let requestURL = TMDB.movieCreditsAPI.getURL.replacingOccurrences(of: "{movie_id}", with: "\(id)")
-        getHTTPRequest(URL: requestURL,
-                       parameters: MyAuth.trendingParameters,
-                       headers: MyAuth.headers,
-                       decodingType: Credits.self,
-                       callback: {(data: Credits) -> () in
-                            self.movieCastDict[data.id] = data.cast
-                            self.tableView.reloadData()
-                       })
-    }
-    
-    func setTVCreditsData(id: Int) {
-        let requestURL = TMDB.tvSeriesCreditsAPI.getURL.replacingOccurrences(of: "{series_id}", with: "\(id)")
-        getHTTPRequest(URL: requestURL,
-                       parameters: MyAuth.trendingParameters,
-                       headers: MyAuth.headers,
-                       decodingType: Credits.self,
-                       callback: {(data: Credits) -> () in
-                            self.tvCastDict[data.id] = data.cast
-                            self.tableView.reloadData()
-                       })
+    func setCreditsData(contentsType: APIConstants.MediaType, contentsId: Int, indexPath: IndexPath) {
+        let router = APIRouter.creditsAPI(contentsType: contentsType, contentsId: contentsId)
+        model.requestTMDB(responseType: Credits.self, router: router) { credits, error in
+            guard error == nil, let credits else {
+                print(#function, error)
+                return
+            }
+            self.castDict[contentsType]?[credits.id] = credits.cast
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
     }
 }
 
@@ -173,10 +148,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let data = dataList[rowIndex]
         
         // 최초 1회에 한해 Cast 데이터 request
-        if data.mediaType == Result.MediaType.movie && movieCastDict[data.id]?.count == 0 {
-            setMovieCreditsData(id: data.id)
-        } else if data.mediaType == Result.MediaType.tv && tvCastDict[data.id]?.count == 0 {
-            setTVCreditsData(id: data.id)
+        if castDict[data.mediaType]?[data.id] == nil {
+            setCreditsData(contentsType: data.mediaType, contentsId: data.id, indexPath: indexPath)
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
@@ -188,8 +161,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         var thisGenres: [Genre] = []
         var copyIDS = data.genreIDS
         
-//        print(#function, genreDict)
-        
         for genre in genreList {
             if copyIDS.count > 0, copyIDS.contains(genre.id) {
                 thisGenres.append(genre)
@@ -200,15 +171,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.configGenreData(thisGenres)
 
-        var cast: [Cast] = []
-        switch data.mediaType {
-        case .movie: cast = movieCastDict[data.id] ?? []
-        case .tv: cast = tvCastDict[data.id] ?? []
+        guard let cast = castDict[data.mediaType]?[data.id] else {
+            return cell
         }
         
         cell.configCastData(data: cast)
        
-    
         return cell
     }
 }

@@ -13,7 +13,7 @@ import Kingfisher
 
 class DetailCollectionViewCell: UICollectionViewCell {
     
-    var contentsType: APIConstants.ContentsType?
+    var contentsType: APIConstants.MediaType?
     
     private var radiousValue: CGFloat = UIResource.Number.mainViewVideoUIView.cornerRadious
     
@@ -47,7 +47,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
     }
     
-    func configCell<T: Decodable>(data: T, contentsType: APIConstants.ContentsType) {
+    func configCell<T: Decodable>(data: T, contentsType: APIConstants.MediaType) {
         self.contentsType = contentsType
 
         let baseURL = UIResource.Text.imageBaseURL

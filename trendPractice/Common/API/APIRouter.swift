@@ -27,9 +27,10 @@ enum APIConstants {
         static let json = "application/json"
     }
     
-    enum ContentsType {
-        case movie
-        case tv
+    enum MediaType: String, Decodable {
+        case all = "all"
+        case movie = "movie"
+        case tv = "tv"
     }
     
     enum TimeWindow {
@@ -42,16 +43,18 @@ enum APIConstants {
 enum APIRouter: URLRequestConvertible {
  
     // MARK: Request Types
-    case trendingAPI(contentsType: APIConstants.ContentsType,timeWindow: APIConstants.TimeWindow)
-    case similerAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
-    case recommendationsAPI(contentsType: APIConstants.ContentsType, contentsId: Int, page: Int)
-    case imagesAPI(contentsType: APIConstants.ContentsType, contentsId: Int, includeImageLanguage: String)
+    case trendingAPI(contentsType: APIConstants.MediaType,timeWindow: APIConstants.TimeWindow)
+    case genreAPI(contentsType: APIConstants.MediaType)
+    case creditsAPI(contentsType: APIConstants.MediaType, contentsId: Int)
+    case similerAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
+    case recommendationsAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
+    case imagesAPI(contentsType: APIConstants.MediaType, contentsId: Int, includeImageLanguage: String)
     
 
     // MARK: Methods
     var method: HTTPMethod {
         switch self {
-        case .trendingAPI, .imagesAPI, .similerAPI, .recommendationsAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI, .imagesAPI, .similerAPI, .recommendationsAPI:
             return .get
         }
     }
@@ -61,6 +64,10 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .trendingAPI(let contentsType, let timeWindow):
             return "trending/\(contentsType)/\(timeWindow)"
+        case .genreAPI(contentsType: let contentsType):
+            return "genre/\(contentsType)/list"
+        case .creditsAPI(let contentsType, let contentsId):
+            return "\(contentsType)/\(contentsId)/credits"
         case .similerAPI(let contentsType, let contentsId, let page):
             return "\(contentsType)/\(contentsId)/similar"
         case .recommendationsAPI(let contentsType, let contentsId, let page):
@@ -77,7 +84,7 @@ enum APIRouter: URLRequestConvertible {
     // MARK: - Parameters
     private var parameters: Parameters? {
         switch self {
-        case .trendingAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI:
             return APIRouter.defaultParameters
         case .similerAPI(let contentsType, let contentsId, let page),
              .recommendationsAPI(let contentsType, let contentsId, let page):
@@ -97,7 +104,7 @@ enum APIRouter: URLRequestConvertible {
     // MARK: Encodings
     var encoding: ParameterEncoding {
         switch self {
-        case .trendingAPI, .similerAPI, .recommendationsAPI, .imagesAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI, .similerAPI, .recommendationsAPI, .imagesAPI:
             return URLEncoding.default
         }
     }

@@ -69,7 +69,7 @@ class MainTableViewCell: UITableViewCell {
         
         let baseURL = "https://image.tmdb.org/t/p/w780" 
         let url = URL(string: baseURL+"/"+data.posterPath)
-        videoView.containerView.kf.setImage(with: url)
+        videoView.imageView.kf.setImage(with: url)
     }
     
     func configGenreData(_ data: [Genre]) {

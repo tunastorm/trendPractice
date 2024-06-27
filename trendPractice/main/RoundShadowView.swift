@@ -13,7 +13,14 @@ class RoundShadowView: UIView {
     
     private var radiousValue: CGFloat = UIResource.Number.mainViewVideoUIView.cornerRadious
   
-    let containerView = UIImageView()
+    let containerView = UIView()
+    
+    let imageView = UIImageView().then {
+        $0.contentMode = .scaleToFill
+        $0.layer.cornerRadius = UIResource.Number.mainViewVideoUIView.cornerRadious
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        $0.layer.masksToBounds = true
+    }
     
     let bookmarkButton = UIButton().then{
         $0.backgroundColor = .white
@@ -69,7 +76,6 @@ class RoundShadowView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layoutView()
-
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -96,6 +102,7 @@ class RoundShadowView: UIView {
         textView.layer.cornerRadius = radiousValue
     
         addSubview(containerView)
+        addSubview(imageView)
         addSubview(textView)
         addSubview(bookmarkButton)
         addSubview(rateTitleLabel)
@@ -115,6 +122,11 @@ class RoundShadowView: UIView {
         containerView.snp.makeConstraints{
             $0.height.equalToSuperview()
             $0.edges.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints {
+            $0.height.equalToSuperview().multipliedBy(0.6)
+            $0.top.horizontalEdges.equalToSuperview()
         }
         
         bookmarkButton.snp.makeConstraints{

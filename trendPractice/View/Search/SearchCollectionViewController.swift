@@ -14,8 +14,6 @@ import Then
  
 
 class SearchCollectionViewController: UIViewController {
-
-    var delegate: Controller?
     
     let searchBar = UISearchBar().then {
         $0.searchBarStyle = .minimal
@@ -24,15 +22,12 @@ class SearchCollectionViewController: UIViewController {
     var movieLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .boldSystemFont(ofSize: UIResource.fontSize.middle)
-//        $0.text = "추천 영화"
     }
     
     var tvLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .boldSystemFont(ofSize: UIResource.fontSize.middle)
-//        $0.text = "추천 TV 시리즈"
     }
-    
     
     lazy var movieCollectionView = UICollectionView(frame: .zero,
                                           collectionViewLayout: collectionViewLayout())
@@ -151,7 +146,6 @@ extension SearchCollectionViewController: CodeBaseUI {
     }
     
     @objc func goMainView() {
-        delegate?.nextView = MainViewController.self
         popToRootView(animated: false)
     }
 }

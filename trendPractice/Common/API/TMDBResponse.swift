@@ -30,8 +30,10 @@ struct Result: Decodable {
     let title: String?
     let name: String?
     let posterPath: String
+    let backdropPath: String
     let genreIDS: [Int]
     let releaseDate: String?
+    let firstAirDate: String?
     let voteAverage: Double
     let overview: String
 
@@ -42,9 +44,19 @@ struct Result: Decodable {
         case title
         case name
         case posterPath = "poster_path"
+        case backdropPath = "backdrop_path"
         case genreIDS = "genre_ids"
         case releaseDate = "release_date"
+        case firstAirDate = "first_air_date"
         case voteAverage = "vote_average"
         case overview
+    }
+    
+    func geTitle() -> String {
+        return mediaType == .movie ? title ?? "" : name ?? ""
+    }
+    
+    func getReleasDate() -> String {
+        return mediaType == .movie ? releaseDate ?? "" : firstAirDate ?? ""
     }
 }

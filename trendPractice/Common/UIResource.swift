@@ -99,12 +99,14 @@ struct SystemImage {
 //    let changeTamagochi = UIImage(systemName: "moon.fill")
 //    let resetData = UIImage(systemName: "arrow.clockwise")
 //    let personCircle = UIImage(systemName: "person.circle")
+    let person = UIImage(systemName: "person")
     let listTriangl = UIImage(systemName: "list.triangle")
     let magnifyingGlass = UIImage(systemName: "magnifyingglass")
     let paperClip = UIImage(systemName: "paperclip")
     let chevronRight = UIImage(systemName: "chevron.right")
     let chevronLeft = UIImage(systemName: "chevron.left")
     let chevronDown = UIImage(systemName: "chevron.down")
+    let chevronUp = UIImage(systemName: "chevron.up")
 }
 
 struct Opacity {

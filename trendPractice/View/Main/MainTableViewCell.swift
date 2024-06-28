@@ -44,28 +44,17 @@ class MainTableViewCell: UITableViewCell {
     }
     
     func configTrendingData(_ data: Result) {
-        
-        guard let releaseDate = data.releaseDate else {return}
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        guard let oldDate = dateFormatter.date(from: releaseDate) else {return}
+        guard let oldDate = dateFormatter.date(from: data.getReleasDate()) else {return}
         
         dateFormatter.dateFormat = UIResource.Text.mainViewDate.dateFormatString
         
         dateLabel.text = dateFormatter.string(from: oldDate)
         
         videoView.rateLabel.text = String(format: "%.1f", data.voteAverage/2)
-        
-        var titleText = ""
-        switch data.mediaType {
-        case .movie: titleText = data.title ?? ""
-        case .tv: titleText = data.name ?? ""
-        default: titleText = ""
-        }
-        
-        videoView.videoTitleLabel.text = titleText
+        videoView.videoTitleLabel.text = data.geTitle()
         
         let baseURL = "https://image.tmdb.org/t/p/w780" 
         let url = URL(string: baseURL+"/"+data.posterPath)
@@ -81,14 +70,12 @@ class MainTableViewCell: UITableViewCell {
         }
         
         var copyTag = tag
-        
         for (idx, genre) in data.enumerated() {
             copyTag += genre.name
             if idx < data.count-1 {
                 copyTag += ", #"
             }
         }
-    
         tagLabel.text = copyTag
     }
     
@@ -132,6 +119,4 @@ extension MainTableViewCell: CodeBaseUI {
     func configUI() {
         self.selectionStyle = .none
     }
-    
-    
 }

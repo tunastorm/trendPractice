@@ -14,9 +14,7 @@ import Then
 class MainViewController: UIViewController {
     
     let model = TMDBModel.shared
-    
-    var delegate: Controller?
-    
+
     var dataList: [Result]?
     
     var genreDict: [APIConstants.MediaType : [Genre]] = [.movie: [], .tv: []]
@@ -26,6 +24,9 @@ class MainViewController: UIViewController {
         $0.separatorInset = .zero
         $0.separatorStyle = .none
     }
+    
+    let searchVC = SearchCollectionViewController()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +64,15 @@ class MainViewController: UIViewController {
                 return
             }
             self.dataList = trending.results
+            self.dataList?.forEach {
+                if $0.mediaType == .movie {
+                    print($0.title)
+                } else {
+                    print($0.name)
+                }
+                
+            }
+         
             group.leave()
         }
         group.enter()
@@ -125,8 +135,7 @@ extension MainViewController: CodeBaseUI {
     }
     
     @objc func goSearchPage() {
-        delegate?.nextView = SearchCollectionViewController.self
-        popToRootView(animated: false)
+        pushAfterView(view: searchVC, backButton: true, animated: true)
     }
 }
 
@@ -146,6 +155,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let dataList else {return UITableViewCell()}
         
         let data = dataList[rowIndex]
+        
+        print(#function, indexPath.row, data.title, data.name)
         
         // 최초 1회에 한해 Cast 데이터 request
         if castDict[data.mediaType]?[data.id] == nil {
@@ -178,6 +189,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configCastData(data: cast)
        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let dataList else {
+            return
+        }
+        let data = dataList[indexPath.row]
+        print(#function, data.title)
+        let mainDetailVC = MainDetailViewController()
+        mainDetailVC.data = data
+        pushAfterView(view: mainDetailVC, backButton: true, animated: true)
     }
 }
 

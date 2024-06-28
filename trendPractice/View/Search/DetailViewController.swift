@@ -8,10 +8,6 @@
 import UIKit
 
 
-protocol DetailViewDelegate {
-   
-}
-
 
 class DetailViewController: UIViewController {
    
@@ -97,7 +93,7 @@ class DetailViewController: UIViewController {
                     group.leave()
                     return
                 }
-                
+            
                 self.model.setNewResponse(oldIndex: 0, response: images)
                 self.imageList = self.model.getPosters()
                 group.leave()
@@ -108,9 +104,4 @@ class DetailViewController: UIViewController {
             self.detailView.tableView.reloadData()
         }
     }
-}
-
-
-extension DetailViewController: DetailViewDelegate {
-        
 }

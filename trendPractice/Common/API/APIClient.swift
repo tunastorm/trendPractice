@@ -24,7 +24,7 @@ class APIClient {
                 switch response.result {
                 case .success:
                     guard let decodedData = response.value else {return}
-                    dump(decodedData)
+//                    dump(decodedData)
                     completionHandler(decodedData, nil)
                 case .failure(let error):
                     dump(error)

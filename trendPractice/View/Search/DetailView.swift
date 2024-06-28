@@ -12,8 +12,6 @@ import Then
 
 class DetailView: UIView {
 
-    var delegate: DetailViewDelegate?
-    
     let tableView = UITableView()
     
     override init(frame: CGRect) {

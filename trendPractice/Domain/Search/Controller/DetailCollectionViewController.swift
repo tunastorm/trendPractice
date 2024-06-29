@@ -29,7 +29,27 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-    
+        if collectionView.tag >= imageVector.count - 1 {
+            return
+        }
+        
+        let tableRowIdx = collectionView.tag
+        let lastResponse = responseList[tableRowIdx]
+        
+        indexPaths.forEach { item in
+            let imageList = imageVector[tableRowIdx]
+            let totalPages = lastResponse.totalPages
+            print(#function, "item: \(item.row)/ \(imageList.count) | page: \(lastResponse.page) / \(totalPages)")
+            guard lastResponse.page < totalPages, imageList.count - 1 == item.row else {
+                print(#function, "scroll canceld")
+                return
+            }
+            switch tableRowIdx {
+            case 0: requestSimilar(idx: tableRowIdx, page: lastResponse.page + 1)
+            case 1: requestRecommandations(idx: tableRowIdx, page: lastResponse.page + 1)
+            default: return
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {

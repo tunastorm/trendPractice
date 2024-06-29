@@ -42,15 +42,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         for item in indexPaths {
             print(#function, item.row)
-            guard let resultList = data?.results,
-                  let totalPages = data?.totalPages, page < totalPages,
-                  let searchText = searchedWords.last else {
+            guard let resultList = data?.results, let totalPages = data?.totalPages, page < totalPages, let searchText = searchedWords.last else {
                 print(#function, "scroll cancled")
                 return
             }
             
             let minus = resultList.count % 3 == 0 ? 3 : resultList.count % 3
-            if resultList.count - minus <= item.row {
+            if resultList.count - minus == item.row {
                 page += 1
                 requestSearch(query: searchText, page: page)
             }

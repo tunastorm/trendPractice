@@ -11,7 +11,6 @@
 		BC9502542C18ADE0004070B8 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */; };
 		BC9F6DC92C298E0200D11B98 /* TMDBResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */; };
 		BC9F6DCB2C298F8200D11B98 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DCA2C298F8200D11B98 /* DetailViewController.swift */; };
-		BC9F6DCF2C299A9C00D11B98 /* TMDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DCE2C299A9C00D11B98 /* TMDBModel.swift */; };
 		BC9F6DD12C29C1C700D11B98 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DD02C29C1C700D11B98 /* DetailView.swift */; };
 		BC9F6DD32C29C93500D11B98 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DD22C29C93500D11B98 /* DetailCollectionViewCell.swift */; };
 		BC9F6DD52C29D16000D11B98 /* DetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DD42C29D16000D11B98 /* DetailCollectionViewController.swift */; };
@@ -63,7 +62,6 @@
 		BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBResponse.swift; sourceTree = "<group>"; };
 		BC9F6DCA2C298F8200D11B98 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		BC9F6DCE2C299A9C00D11B98 /* TMDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBModel.swift; sourceTree = "<group>"; };
 		BC9F6DD02C29C1C700D11B98 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		BC9F6DD22C29C93500D11B98 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC9F6DD42C29D16000D11B98 /* DetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewController.swift; sourceTree = "<group>"; };
@@ -201,7 +199,6 @@
 				BCA5D2292C184D86005FA263 /* APIClient.swift */,
 				BCA5D22B2C184E0E005FA263 /* APIRouter.swift */,
 				BCA5D1E82C16CEE2005FA263 /* APIKey.swift */,
-				BC9F6DCE2C299A9C00D11B98 /* TMDBModel.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -435,7 +432,6 @@
 				BCECFFE52C2EEF1B00C96564 /* CALayer+Extension.swift in Sources */,
 				BCA5D1D22C16C89C005FA263 /* AppDelegate.swift in Sources */,
 				BC9F6DC92C298E0200D11B98 /* TMDBResponse.swift in Sources */,
-				BC9F6DCF2C299A9C00D11B98 /* TMDBModel.swift in Sources */,
 				BCECFFF82C2FCB9D00C96564 /* BaseCollectionViewCell.swift in Sources */,
 				BCA5D1E92C16CEE2005FA263 /* APIKey.swift in Sources */,
 				BCA5D1EF2C16CFC9005FA263 /* ViewTransition.swift in Sources */,

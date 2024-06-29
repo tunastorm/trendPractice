@@ -10,7 +10,6 @@ import Foundation
 
 struct ImagesResponse: Decodable {
     var id: Int
-//    var backdrops: [Backdrop]
     var posters: [Poster]
 }
 

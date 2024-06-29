@@ -14,7 +14,6 @@ import Then
 
 class MainViewController: BaseViewController {
     
-    let model = TMDBModel.shared
     let rootView = MainView()
 
     var dataList: [Result]?
@@ -61,7 +60,7 @@ class MainViewController: BaseViewController {
        
         
         group.enter()
-        model.requestTMDB(responseType: TMDBResponse.self, router: trending) { trending, error in
+        APIClient.request(TMDBResponse.self, router: trending) { trending, error in
             guard error == nil, let trending else {
                 print(#function, error)
                 group.leave()
@@ -71,7 +70,7 @@ class MainViewController: BaseViewController {
             group.leave()
         }
         group.enter()
-        model.requestTMDB(responseType: GenreResponse.self, router: movieGenre) { movieGenre, error in
+        APIClient.request(GenreResponse.self, router: movieGenre) { movieGenre, error in
             guard error == nil, let movieGenre else {
                 print(#function, error)
                 group.leave()
@@ -81,7 +80,7 @@ class MainViewController: BaseViewController {
             group.leave()
         }
         group.enter()
-        model.requestTMDB(responseType: GenreResponse.self, router: tvGenre) { tvGenre, error in
+        APIClient.request(GenreResponse.self, router: tvGenre) { tvGenre, error in
             guard error == nil, let tvGenre else {
                 print(#function, error)
                 group.leave()
@@ -97,7 +96,7 @@ class MainViewController: BaseViewController {
     
     func setCreditsData(contentsType: APIConstants.MediaType, contentsId: Int, indexPath: IndexPath) {
         let router = APIRouter.creditsAPI(contentsType: contentsType, contentsId: contentsId)
-        model.requestTMDB(responseType: Credits.self, router: router) { credits, error in
+        APIClient.request(Credits.self, router: router) { credits, error in
             guard error == nil, let credits else {
                 print(#function, error)
                 return

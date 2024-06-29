@@ -8,7 +8,8 @@
 import UIKit
 
 
-extension DetailViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching {
+extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
+    
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return contentsName
@@ -37,13 +38,5 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource, UITa
         cell.collectionView.reloadData()
         
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        
     }
 }

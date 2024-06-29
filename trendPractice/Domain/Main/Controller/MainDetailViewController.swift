@@ -77,7 +77,7 @@ class MainDetailViewController: BaseViewController {
             return
         }
         let router = APIRouter.creditsAPI(contentsType: mediaType, contentsId: data.id)
-        TMDBModel.shared.requestTMDB(responseType: Credits.self, router: router) { credits, error in
+        APIClient.request(Credits.self, router: router) { credits, error in
             guard error == nil, let credits else {
                 print(#function, error)
                 return

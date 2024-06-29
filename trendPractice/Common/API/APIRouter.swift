@@ -48,13 +48,15 @@ enum APIRouter: URLRequestConvertible {
     case creditsAPI(contentsType: APIConstants.MediaType, contentsId: Int)
     case similerAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
     case recommendationsAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
+    case searchAPI(query: String, page: Int)
     case imagesAPI(contentsType: APIConstants.MediaType, contentsId: Int, includeImageLanguage: String)
+    
     
 
     // MARK: Methods
     var method: HTTPMethod {
         switch self {
-        case .trendingAPI, .genreAPI, .creditsAPI, .imagesAPI, .similerAPI, .recommendationsAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI, .imagesAPI, .similerAPI, .recommendationsAPI, .searchAPI:
             return .get
         }
     }
@@ -74,10 +76,12 @@ enum APIRouter: URLRequestConvertible {
             return "\(contentsType)/\(contentsId)/recommendations"
         case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
             return "\(contentsType)/\(contentsId)/images"
+        case .searchAPI:
+            return "search/multi"
         }
     }
     
-    static var defaultParameters: Alamofire.Parameters = [
+    static var baseParameters: Parameters = [
         "language" : "ko-KR"
     ]
     
@@ -85,14 +89,19 @@ enum APIRouter: URLRequestConvertible {
     private var parameters: Parameters? {
         switch self {
         case .trendingAPI, .genreAPI, .creditsAPI:
-            return APIRouter.defaultParameters
+            return APIRouter.baseParameters
         case .similerAPI(let contentsType, let contentsId, let page),
              .recommendationsAPI(let contentsType, let contentsId, let page):
-            Self.defaultParameters["page"] = page
-            return Self.defaultParameters
+            Self.baseParameters["page"] = page
+            return Self.baseParameters
         case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
-            Self.defaultParameters["include_image_language"] = includeImageLanguage
-            return Self.defaultParameters
+            Self.baseParameters["include_image_language"] = includeImageLanguage
+            return Self.baseParameters
+        case .searchAPI(let query, let page):
+            Self.baseParameters["query"] = query
+            Self.baseParameters["include_adult"] = false
+            Self.baseParameters["page"] = page
+            return Self.baseParameters
         }
     }
     
@@ -104,7 +113,7 @@ enum APIRouter: URLRequestConvertible {
     // MARK: Encodings
     var encoding: ParameterEncoding {
         switch self {
-        case .trendingAPI, .genreAPI, .creditsAPI, .similerAPI, .recommendationsAPI, .imagesAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI, .similerAPI, .recommendationsAPI, .imagesAPI, .searchAPI:
             return URLEncoding.default
         }
     }

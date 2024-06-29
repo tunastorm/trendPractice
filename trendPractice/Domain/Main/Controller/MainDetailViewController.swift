@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 
-class MainDetailViewController: UIViewController {
+class MainDetailViewController: BaseViewController {
     
     var data: Result?
     
@@ -23,7 +23,6 @@ class MainDetailViewController: UIViewController {
             rootView.tableView.reloadData()
         }
     }
-    
     
     override func loadView() {
         view = rootView
@@ -38,7 +37,11 @@ class MainDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+    }
+    
+    override func configNavigationbar() {
+        super.configNavigationbar()
+        navigationItem.title = UIResource.Text.mainDetailView.navigationTitle
     }
     
     func setTableViewDelegate() {
@@ -50,22 +53,30 @@ class MainDetailViewController: UIViewController {
     
     func setMovieData() {
         let baseURL = UIResource.Text.imageBaseURL
-        guard let data, let backdrop = URL(string: baseURL + data.backdropPath), let poster = URL(string: baseURL + data.posterPath) else {
+        guard let data else {
             print(#function, "noData")
             return
         }
         
+        if let backpropPath = data.backdropPath {
+            let backdrop = URL(string: baseURL + backpropPath)
+            rootView.titleView.kf.setImage(with: backdrop)
+        }
+        
+        if let posterPath = data.posterPath {
+            let poster = URL(string: baseURL + posterPath)
+            rootView.posterView.kf.setImage(with: poster)
+        }
+    
         rootView.titleLabel.text = data.geTitle()
-        rootView.titleView.kf.setImage(with: backdrop)
-        rootView.posterView.kf.setImage(with: poster)
         rootView.overViewContentsLabel.text = data.overview
     }
     
     func setCastData() {
-        guard let data else {
+        guard let data, let mediaType = data.mediaType else {
             return
         }
-        let router = APIRouter.creditsAPI(contentsType: data.mediaType, contentsId: data.id)
+        let router = APIRouter.creditsAPI(contentsType: mediaType, contentsId: data.id)
         TMDBModel.shared.requestTMDB(responseType: Credits.self, router: router) { credits, error in
             guard error == nil, let credits else {
                 print(#function, error)
@@ -75,7 +86,6 @@ class MainDetailViewController: UIViewController {
             self.castData = credits.cast.filter { cast in
                 cast.character != nil
             }
-            print(#function, self.castData)
         }
     }
 }

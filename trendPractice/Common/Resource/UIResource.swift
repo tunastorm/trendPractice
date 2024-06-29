@@ -9,7 +9,6 @@ import UIKit
 
 
 struct UIResource {
-    let text: Text?
     let number: Number
     static var image = SystemImage()
     static var opacity = Opacity()
@@ -19,20 +18,16 @@ struct UIResource {
         static let imageBaseURL = "https://image.tmdb.org/t/p/w780"
         
         case tag
-        
         case mainViewDate
         case mainViewRate
         case mainViewShowDetail
-        
         case mainTableViewCell
         case mainCellOverView
         case mainCellCast
-        
+        case mainDetailView
         case searchCollectionView
-        
         case detailViewSimilar
         case detailViewRecommand
-        
         case detailViewTitle
         
         var sign: String {
@@ -44,7 +39,7 @@ struct UIResource {
         
         var navigationTitle: String {
             switch self {
-            case .mainTableViewCell: return "출연/제작"
+            case .mainDetailView: return "출연/제작"
             case .searchCollectionView: return  "콘텐츠 검색"
             default: return "\(self) is Wrong Case for title"
             }
@@ -70,7 +65,12 @@ struct UIResource {
             }
         }
         
-        
+        var placeHolder: String {
+            switch self {
+            case .searchCollectionView: return "영화 제목을 검색해 보세요"
+            default: return "\(self) is Wrong Case for placeHolder"
+            }
+        }
     }
     
     enum Number {

@@ -30,6 +30,6 @@ class BaseView: UIView {
     }
     
     func configView() {
-        
+        self.backgroundColor = .white
     }
 }

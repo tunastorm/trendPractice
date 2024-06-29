@@ -149,7 +149,6 @@ class MainDetailView: BaseView {
     override func configView() {
         self.backgroundColor = .white
         self.tableView.rowHeight = 86
-        
     }
         
     override func setNeedsLayout() {

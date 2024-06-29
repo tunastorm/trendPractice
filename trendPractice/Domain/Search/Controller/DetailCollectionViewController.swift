@@ -12,7 +12,6 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let tableRowIdx = collectionView.tag
         let itemSize = tableRowIdx  < resultsList.count ? resultsList[tableRowIdx].count : imageList.count
-        print(#function, itemSize)
         return itemSize
     }
     
@@ -23,17 +22,13 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let tableRowIdx = collectionView.tag
         let itemIdx = indexPath.row
     
-        print(#function, "1")
-        
         guard let contentsType else {return cell}
-        
-        print(#function, "2", tableRowIdx)
+    
         switch tableRowIdx < resultsList.count {
         case true:  cell.configCell(data: resultsList[tableRowIdx][itemIdx], contentsType: contentsType)
         case false:  cell.configCell(data: imageList[itemIdx], contentsType: contentsType)
         }
         
-        print(#function, "3")
         return cell
     }
     

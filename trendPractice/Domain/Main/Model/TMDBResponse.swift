@@ -25,12 +25,12 @@ struct TMDBResponse: Decodable {
 // MARK: - Result
 struct Result: Decodable {
     let id: Int
-    let mediaType: APIConstants.MediaType
+    let mediaType: APIConstants.MediaType?
     let adult: Bool
     let title: String?
     let name: String?
-    let posterPath: String
-    let backdropPath: String
+    let posterPath: String?
+    let backdropPath: String?
     let genreIDS: [Int]
     let releaseDate: String?
     let firstAirDate: String?

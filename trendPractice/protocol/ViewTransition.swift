@@ -7,7 +7,7 @@
 import UIKit
 
 
-protocol ViewTransition {
+protocol ViewTransitionDelegate {
    
     func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool)
     
@@ -26,7 +26,7 @@ protocol ViewTransition {
 // some -> Opaque Type, any -> Existential Type
 // WWDC
 
-extension UIViewController: ViewTransition {
+extension UIViewController: ViewTransitionDelegate {
 
     func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool) {
         if !backButton {
@@ -63,9 +63,5 @@ protocol CellTransitionDelegate {
     func pushAfterViewType<T: UIViewController>(type: T.Type, backButton: Bool, animated: Bool, contents: (APIConstants.MediaType, Int, String) )
 }
 
-
-protocol DataReceiveDelegate {
-    func receiveData<T>(data: T)
-}
 
 

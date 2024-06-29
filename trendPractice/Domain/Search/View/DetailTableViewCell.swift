@@ -8,7 +8,7 @@
 import UIKit
 
 
-class DetailTableViewCell: UITableViewCell {
+class DetailTableViewCell: BaseTableViewCell {
     
     let titleLabel = {
         let view = UILabel()
@@ -19,17 +19,7 @@ class DetailTableViewCell: UITableViewCell {
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configHierarchy()
-        configLayout()
-        configView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     static func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 120, height: 160)
@@ -42,12 +32,12 @@ class DetailTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         return layout
     }
-    func configHierarchy() {
+    override func configHierarchy() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(collectionView)
     }
     
-    func configLayout() {
+    override func configLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(contentView).inset(20)
             $0.height.equalTo(20)
@@ -60,7 +50,7 @@ class DetailTableViewCell: UITableViewCell {
         }
     }
     
-    func configView() {
+    override func configView() {
        self.backgroundColor = .clear
     }
     

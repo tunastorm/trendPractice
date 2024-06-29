@@ -1,17 +1,25 @@
 //
-//  UIViewController+Extension.swift
+//  BaseViewController.swift
 //  trendPractice
 //
-//  Created by 유철원 on 6/11/24.
+//  Created by 유철원 on 6/29/24.
 //
 
 import UIKit
 
 
-extension UIViewController {
+class BaseViewController: UIViewController {
     
-    func setDefaultUI() {
-        self.view.backgroundColor = .white
+    override func loadView() {
+      
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configNavigationbar()
+    }
+    
+    func configNavigationbar() {
         self.navigationController?.navigationBar.tintColor = .black
         
         navigationItem.backButtonTitle = ""
@@ -25,4 +33,3 @@ extension UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 }
-

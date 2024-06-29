@@ -11,7 +11,7 @@ import SnapKit
 import Kingfisher
 
 
-class DetailCollectionViewCell: UICollectionViewCell {
+class DetailCollectionViewCell: BaseCollectionViewCell {
     
     var contentsType: APIConstants.MediaType?
     
@@ -19,29 +19,18 @@ class DetailCollectionViewCell: UICollectionViewCell {
     
     let imageView = UIImageView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configHierarchy()
-        configLayout()
-        configUI()
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configHierarchy() {
+    override func configHierarchy() {
         contentView.addSubview(imageView)
     }
     
-    func configLayout() {
-       
+    override func configLayout() {
         imageView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
     }
     
-    func configUI() {
+    override func configView() {
         self.backgroundColor = .clear
         imageView.layer.cornerRadius = radiousValue
         imageView.layer.masksToBounds = true
@@ -56,7 +45,10 @@ class DetailCollectionViewCell: UICollectionViewCell {
         switch data {
         case is Result:
             let result = data as! Result
-            url = URL(string: baseURL + result.posterPath)
+            guard let posterPath = result.posterPath else {
+                return
+            }
+            url = URL(string: baseURL + posterPath)
         case is Poster:
             let poster = data as! Poster
             url = URL(string: baseURL + poster.path)

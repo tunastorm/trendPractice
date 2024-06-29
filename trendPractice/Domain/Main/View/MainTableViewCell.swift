@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 
-class MainTableViewCell: UITableViewCell {
+class MainTableViewCell: BaseTableViewCell {
     
     
     let dateLabel = UILabel().then {
@@ -30,19 +30,34 @@ class MainTableViewCell: UITableViewCell {
     
     let videoView = RoundShadowView()
     
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        // MarketTableViewCell의 contentView에 추가하는 코드
-        configHierarchy()
-        configLayout()
-        configUI()
+    override func configHierarchy() {
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(tagLabel)
+        contentView.addSubview(videoView)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func configLayout() {
+        dateLabel.snp.makeConstraints {
+            $0.height.equalTo(12)
+            $0.top.equalTo(contentView.safeAreaLayoutGuide).inset(20)
+            $0.leading.equalTo(contentView.safeAreaLayoutGuide).inset(20)
+        }
+        tagLabel.snp.makeConstraints {
+            $0.height.equalTo(14)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(4)
+            $0.leading.equalTo(contentView.safeAreaLayoutGuide).inset(20)
+        }
+        videoView.snp.makeConstraints{
+            $0.height.equalTo(340)
+            $0.top.equalTo(tagLabel.snp.bottom).offset(8)
+            $0.bottom.horizontalEdges.equalToSuperview().inset(20)
+        }
     }
     
+    override func configView() {
+        self.selectionStyle = .none
+    }
+
     func configTrendingData(_ data: Result) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -56,8 +71,10 @@ class MainTableViewCell: UITableViewCell {
         videoView.rateLabel.text = String(format: "%.1f", data.voteAverage/2)
         videoView.videoTitleLabel.text = data.geTitle()
         
-        let baseURL = "https://image.tmdb.org/t/p/w780" 
-        let url = URL(string: baseURL+"/"+data.posterPath)
+        guard let posterPath = data.posterPath else {
+            return
+        }
+        let url = URL(string: UIResource.Text.imageBaseURL + posterPath)
         videoView.imageView.kf.setImage(with: url)
     }
     
@@ -88,35 +105,5 @@ class MainTableViewCell: UITableViewCell {
             }
         }
         videoView.videoActerLabel.text = castText
-    }
-}
-
-extension MainTableViewCell: CodeBaseUI {
-    func configHierarchy() {
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(tagLabel)
-        contentView.addSubview(videoView)
-    }
-    
-    func configLayout() {
-        dateLabel.snp.makeConstraints {
-            $0.height.equalTo(12)
-            $0.top.equalTo(contentView.safeAreaLayoutGuide).inset(20)
-            $0.leading.equalTo(contentView.safeAreaLayoutGuide).inset(20)
-        }
-        tagLabel.snp.makeConstraints {
-            $0.height.equalTo(14)
-            $0.top.equalTo(dateLabel.snp.bottom).offset(4)
-            $0.leading.equalTo(contentView.safeAreaLayoutGuide).inset(20)
-        }
-        videoView.snp.makeConstraints{
-            $0.height.equalTo(340)
-            $0.top.equalTo(tagLabel.snp.bottom).offset(8)
-            $0.bottom.horizontalEdges.equalToSuperview().inset(20)
-        }
-    }
-    
-    func configUI() {
-        self.selectionStyle = .none
     }
 }

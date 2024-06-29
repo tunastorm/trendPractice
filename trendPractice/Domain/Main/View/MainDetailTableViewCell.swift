@@ -20,7 +20,7 @@ class MainDetailTableViewCell: BaseTableViewCell {
         $0.tintColor = .white
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 5
-        $0.maskToBound = true
+        $0.layer.masksToBounds = true
     }
     
     let labelView = UIView()

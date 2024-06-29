@@ -68,8 +68,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let dataList else {
             return
         }
+        
         let data = dataList[indexPath.row]
-        print(#function, data.title)
         let mainDetailVC = MainDetailViewController()
         mainDetailVC.data = data
         pushAfterView(view: mainDetailVC, backButton: true, animated: true)

@@ -36,24 +36,12 @@ class DetailCollectionViewCell: BaseCollectionViewCell {
         imageView.layer.masksToBounds = true
     }
     
-    func configCell<T: Decodable>(data: T, contentsType: APIConstants.MediaType) {
-        self.contentsType = contentsType
-
-        let baseURL = UIResource.Text.imageBaseURL
-        
-        var url: URL?
-        switch data {
-        case is Result:
-            let result = data as! Result
-            guard let posterPath = result.posterPath else {
-                return
-            }
-            url = URL(string: baseURL + posterPath)
-        case is Poster:
-            let poster = data as! Poster
-            url = URL(string: baseURL + poster.path)
-        default: return
+    func configCell(data: DetailViewImage, contentsType: APIConstants.MediaType) {
+        guard let imagePath = data.imagePath else {
+            return
         }
+        self.contentsType = contentsType
+        let url = URL(string: UIResource.Text.imageBaseURL + imagePath)
         guard let url else {return}
         imageView.kf.setImage(with: url)
     }

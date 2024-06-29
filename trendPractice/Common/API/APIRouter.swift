@@ -31,6 +31,16 @@ enum APIConstants {
         case all = "all"
         case movie = "movie"
         case tv = "tv"
+        
+        var kr: String {
+            switch self {
+            case .movie:
+                "영화"
+            case .tv:
+                "TV시리즈"
+            default: "콘텐츠"
+            }
+        }
     }
     
     enum TimeWindow {

@@ -41,35 +41,32 @@ class TMDBModel {
         }
     }
     
-    func setNewResponse<T:Decodable>(oldIndex: Int, response: T) {
-        switch T.self {
-        case is TMDBResponse.Type:
-            let newResponse = response as! TMDBResponse
-            TMDBList[oldIndex].page = newResponse.page
-            TMDBList[oldIndex].results.append(contentsOf: newResponse.results)
-            TMDBList[oldIndex].totalPages = newResponse.totalPages
-            TMDBList[oldIndex].totalResults = newResponse.totalResults
-        case is ImagesResponse.Type:
-            let newResponse = response as! ImagesResponse
-            imagesList[oldIndex].id = newResponse.id
-            imagesList[oldIndex].posters.append(contentsOf: newResponse.posters)
-        default: return
-        }
-    }
+//    func setNewResponse<T:Decodable>(oldIndex: Int, response: T) {
+//        switch T.self {
+//        case is TMDBResponse.Type:
+//            let newResponse = response as! TMDBResponse
+//            TMDBList[oldIndex].page = newResponse.page
+//            TMDBList[oldIndex].results.append(contentsOf: newResponse.results)
+//            TMDBList[oldIndex].totalPages = newResponse.totalPages
+//            TMDBList[oldIndex].totalResults = newResponse.totalResults
+//        case is ImagesResponse.Type:
+//            let newResponse = response as! ImagesResponse
+//            imagesList[oldIndex].id = newResponse.id
+//            imagesList[oldIndex].posters.append(contentsOf: newResponse.posters)
+//        default: return
+//        }
+//    }
     
-    func getSimilarResults() -> [Result] {
-        return TMDBList[0].results
-    }
-    
-    func getRecommandationsResults() -> [Result] {
-        return TMDBList[1].results
-    }
-    
-    func getPosters() -> [Poster] {
-        return imagesList[0].posters
-    }
-    
-    func errorHandler(error: AFError) {
-        
-    }
+//    func getSimilarResults() -> [Result] {
+//        return TMDBList[0].results
+//    }
+//    
+//    func getRecommandationsResults() -> [Result] {
+//        return TMDBList[1].results
+//    }
+//    
+//    func getPosters() -> [Poster] {
+//        return imagesList[0].posters
+//    }
+
 }

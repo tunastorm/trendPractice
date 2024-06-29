@@ -8,6 +8,10 @@
 import UIKit
 
 
+protocol DetailViewImage {
+    var imagePath: String? { get }
+}
+
 
 class DetailViewController: UIViewController {
    
@@ -15,13 +19,12 @@ class DetailViewController: UIViewController {
     let detailView = DetailView()
     private let model = TMDBModel.shared
     
-    var contentsType: APIConstants.MediaType?
+    var mediaType: APIConstants.MediaType?
     var contentsId: Int?
     var contentsName: String?
     
-    var resultsList: [[Result]] = [[],[]]
-    var imageList: [Poster] = []
-    
+    var imageVector: [[DetailViewImage]] = [[],[],[]]
+
     
     override func loadView() {
         view = detailView
@@ -29,11 +32,12 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configTableView()
+        print(#function, imageVector.count)
         updateData()
+        configTableView()
     }
     
-    func configTableView() {
+    private func configTableView() {
         self.detailView.tableView.delegate = self
         self.detailView.tableView.dataSource = self
         self.detailView.tableView.prefetchDataSource = self
@@ -42,65 +46,61 @@ class DetailViewController: UIViewController {
     }
     
     private func updateData() {
-        guard let contentsType, let contentsId else {return}
+        guard let mediaType, let contentsId else {return}
         
         let group = DispatchGroup()
-        let similar = APIRouter.similerAPI(contentsType: contentsType, contentsId: contentsId, page: 1)
-        let recommandations = APIRouter.recommendationsAPI(contentsType: contentsType, contentsId: contentsId, page: 1)
-        let images = APIRouter.imagesAPI(contentsType: contentsType, contentsId: contentsId, includeImageLanguage: APIConstants.includeImageLanguage)
+        let similar = APIRouter.similerAPI(contentsType: mediaType, contentsId: contentsId, page: 1)
+        let recommandations = APIRouter.recommendationsAPI(contentsType: mediaType, contentsId: contentsId, page: 1)
+        let images = APIRouter.imagesAPI(contentsType: mediaType, contentsId: contentsId, includeImageLanguage: APIConstants.includeImageLanguage)
         
         group.enter()
         DispatchQueue.global().async(group: group) {
-            
-            self.model.clearResponse(oldIndex: 0, responseType: Result.self)
-            self.model.requestTMDB(responseType: TMDBResponse.self, router: similar) { similar, error in
-                
+            APIClient.request(TMDBResponse.self, router: similar) { similar, error in
                 guard error == nil, let similar else {
                     print(#function, error)
                     group.leave()
                     return
                 }
-                self.model.setNewResponse(oldIndex: 0, response: similar)
-                self.resultsList[0] = self.model.getSimilarResults()
+                self.imageVector[0] = similar.results?.filter{ media in
+                    media.posterPath != nil
+                } ?? []
                 group.leave()
             }
         }
         
         group.enter()
         DispatchQueue.global().async(group: group) {
-            self.model.clearResponse(oldIndex: 1, responseType: Result.self)
-            self.model.requestTMDB(responseType: TMDBResponse.self, router: recommandations){ recommandations, error in
-                
+            APIClient.request(TMDBResponse.self, router: recommandations){ recommandations, error in
                 guard error == nil, let recommandations else {
                     print(#function, error)
                     group.leave()
                     return
                 }
-                
-                self.model.setNewResponse(oldIndex: 1, response: recommandations)
-                self.resultsList[1] = self.model.getRecommandationsResults()
+                self.imageVector[1] = recommandations.results?.filter{ media in
+                    media.posterPath != nil
+                } ?? []
+                self.imageVector[1]
                 group.leave()
             }
         }
         
         group.enter()
         DispatchQueue.global().async(group: group)  {
-            self.model.clearResponse(oldIndex: 0, responseType: ImagesResponse.self)
-            self.model.requestTMDB(responseType: ImagesResponse.self, router: images) { images, error in
-                
+            APIClient.request(ImagesResponse.self, router: images) { images, error in
                 guard error == nil, let images else {
                     print(#function, error)
                     group.leave()
                     return
                 }
-            
-                self.model.setNewResponse(oldIndex: 0, response: images)
-                self.imageList = self.model.getPosters()
+                self.imageVector[2] = images.posters.filter{ media in
+                    media.path != nil
+                } ?? []
                 group.leave()
             }
         }
         
         group.notify(queue: .main) {
+            print(#function, self.imageVector)
             self.detailView.tableView.reloadData()
         }
     }

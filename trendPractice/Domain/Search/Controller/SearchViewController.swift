@@ -64,15 +64,9 @@ class SearchViewController: BaseViewController {
     func updateData(response: SearchResponse) {
         if self.data != nil {
             self.data?.page = response.page
-            self.data?.results = response.results.filter { media in
-                media.posterPath != nil && media.backdropPath != nil
-            }
+            self.data?.results.append(contentsOf: response.results)
         } else {
             self.data = response
-            let filteredResults = response.results.filter { media in
-                media.posterPath != nil && media.backdropPath != nil
-            }
-            self.data?.results.append(contentsOf: filteredResults)
         }
     }
 }

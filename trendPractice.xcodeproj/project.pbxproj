@@ -40,6 +40,7 @@
 		BCA5D2262C183A28005FA263 /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2252C183A28005FA263 /* SearchCollectionViewController.swift */; };
 		BCA5D22A2C184D86005FA263 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D2292C184D86005FA263 /* APIClient.swift */; };
 		BCA5D22C2C184E0E005FA263 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5D22B2C184E0E005FA263 /* APIRouter.swift */; };
+		BCEC00002C30224400C96564 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFFF2C30224400C96564 /* Result.swift */; };
 		BCECFFD72C2D9AAC00C96564 /* MainDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFD62C2D9AAC00C96564 /* MainDetailViewController.swift */; };
 		BCECFFD92C2D9ADA00C96564 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFD82C2D9ADA00C96564 /* BaseView.swift */; };
 		BCECFFDB2C2D9D8A00C96564 /* MainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFDA2C2D9D8A00C96564 /* MainDetailView.swift */; };
@@ -104,6 +105,7 @@
 		BCECFFF92C2FCF0C00C96564 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BCECFFFB2C2FCF3F00C96564 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		BCECFFFD2C2FD50400C96564 /* SearchBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarController.swift; sourceTree = "<group>"; };
+		BCECFFFF2C30224400C96564 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 				BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */,
 				BCA5D2112C17940A005FA263 /* Genre.swift */,
 				BCA5D2132C17A8C5005FA263 /* Credits.swift */,
+				BCECFFFF2C30224400C96564 /* Result.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				BCA5D22A2C184D86005FA263 /* APIClient.swift in Sources */,
 				BCA5D2122C17940A005FA263 /* Genre.swift in Sources */,
 				BC9502522C188519004070B8 /* SearchCollectionViewCell.swift in Sources */,
+				BCEC00002C30224400C96564 /* Result.swift in Sources */,
 				BCA5D1ED2C16CFAB005FA263 /* ReusableIdentifier.swift in Sources */,
 				BCECFFD72C2D9AAC00C96564 /* MainDetailViewController.swift in Sources */,
 				BCA5D2142C17A8C5005FA263 /* Credits.swift in Sources */,

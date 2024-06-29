@@ -25,13 +25,11 @@ class DetailTableViewCell: BaseTableViewCell {
         layout.itemSize = CGSize(width: 120, height: 160)
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0,
-                                           left: 20,
-                                           bottom: 0,
-                                           right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
         return layout
     }
+    
     override func configHierarchy() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(collectionView)
@@ -54,9 +52,8 @@ class DetailTableViewCell: BaseTableViewCell {
        self.backgroundColor = .clear
     }
     
-    func configCell(contentsType: APIConstants.MediaType,rowIndex: Int) {
-      
+    func configCell(mediaType: APIConstants.MediaType,rowIndex: Int) {
         let baseTitle = rowIndex == 0 ? UIResource.Text.detailViewSimilar.label : UIResource.Text.detailViewRecommand.label
-        titleLabel.text = baseTitle + String(describing: contentsType)
+        titleLabel.text = baseTitle + mediaType.kr
     }
 }

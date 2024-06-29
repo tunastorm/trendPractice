@@ -15,7 +15,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return resultsList.count + 1
+        return imageVector.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,10 +28,10 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource, UITa
         cell.collectionView.tag = indexPath.row
         cell.collectionView.backgroundColor = .clear
         
-        if let contentsType, indexPath.row < resultsList.count {
-            cell.configCell(contentsType: contentsType, rowIndex: indexPath.row)
-        } else {
-            cell.titleLabel.text = UIResource.Text.detailViewTitle.label
+        if let mediaType, indexPath.row < imageVector.count-1 {
+            cell.configCell(mediaType: mediaType, rowIndex: indexPath.row)
+        } else if let mediaType {
+            cell.titleLabel.text = mediaType.kr
         }
         
         cell.collectionView.reloadData()

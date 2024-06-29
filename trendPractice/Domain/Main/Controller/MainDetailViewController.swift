@@ -82,7 +82,6 @@ class MainDetailViewController: BaseViewController {
                 print(#function, error)
                 return
             }
-            
             self.castData = credits.cast.filter { cast in
                 cast.character != nil
             }

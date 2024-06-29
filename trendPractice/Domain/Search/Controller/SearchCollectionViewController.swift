@@ -38,16 +38,22 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         
+        print(#function, "\(page)/\(data?.totalPages) | \(searchedWords.last) | \(Int((data?.results.count ?? 0) / 3) * 3)")
+        
         for item in indexPaths {
-            guard let resultList = data?.results, resultList.count - 2 == item.row,
+            print(#function, item.row)
+            guard let resultList = data?.results,
                   let totalPages = data?.totalPages, page < totalPages,
                   let searchText = searchedWords.last else {
+                print(#function, "scroll cancled")
                 return
             }
             
-            page += 1
-            print(#function, searchText, page)
-            requestSearch(query: searchText , page: page)
+            let minus = resultList.count % 3 == 0 ? 3 : resultList.count % 3
+            if resultList.count - minus <= item.row {
+                page += 1
+                requestSearch(query: searchText, page: page)
+            }
         }
     }
     
@@ -59,7 +65,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionViewCell
         
         let vc = DetailViewController()
-        vc.contentsType = cell.contentsType
+        vc.mediaType = cell.contentsType
         vc.contentsId = cell.imageView.tag
         vc.contentsName = cell.contentsName
         pushAfterView(view: vc, backButton: true, animated: true)

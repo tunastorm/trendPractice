@@ -14,18 +14,26 @@ struct ImagesResponse: Decodable {
     var posters: [Poster]
 }
 
-struct Backdrop: Decodable {
-    var path: String
+struct Backdrop: Decodable, DetailViewImage {
+    var path: String?
     
     enum CodingKeys: String, CodingKey {
         case path = "file_path"
     }
+    
+    var imagePath: String? {
+        return path
+    }
 }
 
-struct Poster: Decodable {
-    var path: String
+struct Poster: Decodable, DetailViewImage {
+    var path: String?
     
     enum CodingKeys: String, CodingKey {
         case path = "file_path"
+    }
+    
+    var imagePath: String? {
+        return path
     }
 }

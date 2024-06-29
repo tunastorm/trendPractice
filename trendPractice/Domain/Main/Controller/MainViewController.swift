@@ -58,6 +58,7 @@ class MainViewController: BaseViewController {
         let trending = APIRouter.trendingAPI(contentsType: .all, timeWindow: .week)
         let movieGenre = APIRouter.genreAPI(contentsType: .movie)
         let tvGenre = APIRouter.genreAPI(contentsType: .tv)
+       
         
         group.enter()
         model.requestTMDB(responseType: TMDBResponse.self, router: trending) { trending, error in

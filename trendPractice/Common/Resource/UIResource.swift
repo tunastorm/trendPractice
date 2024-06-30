@@ -18,6 +18,7 @@ struct UIResource {
         static let imageBaseURL = "https://image.tmdb.org/t/p/w780"
         
         case tag
+        case mainView
         case mainViewDate
         case mainViewRate
         case mainViewShowDetail
@@ -41,6 +42,7 @@ struct UIResource {
         
         var navigationTitle: String {
             switch self {
+            case .mainView: return "주간 인기 순위"
             case .mainDetailView: return "출연/제작"
             case .searchCollectionView: return  "콘텐츠 검색"
             case .detailView: return  "추천 콘텐츠"

@@ -47,9 +47,9 @@ class MainDetailTableViewCell: BaseTableViewCell {
     
     override func configLayout() {
         profileImage.snp.makeConstraints {
-            $0.height.equalTo(80)
+            $0.height.equalTo(76)
             $0.width.equalTo(50)
-            $0.verticalEdges.equalToSuperview().inset(10)
+            $0.verticalEdges.equalToSuperview().inset(5)
             $0.leading.equalToSuperview()
         }
         
@@ -67,7 +67,7 @@ class MainDetailTableViewCell: BaseTableViewCell {
         
         characterLabel.snp.makeConstraints {
             $0.height.equalTo(14)
-            $0.top.equalTo(actorLabel.snp.bottom).offset(6)
+            $0.top.equalTo(actorLabel.snp.bottom).offset(8)
             $0.bottom.horizontalEdges.equalToSuperview()
         }
     }

@@ -43,6 +43,7 @@ class MainViewController: BaseViewController {
         let barButtonItem = UIBarButtonItem(image: UIResource.image.magnifyingGlass,
                                             style: .plain, target: self, action:#selector(goSearchPage))
         navigationItem.rightBarButtonItem = barButtonItem
+        navigationItem.title = UIResource.Text.mainView.navigationTitle
     }
     
     func configRootView() {

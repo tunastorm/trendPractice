@@ -39,7 +39,8 @@ class MainDetailViewController: BaseViewController {
         super.viewWillAppear(animated)
     }
     
-    override func configNavigationbar() {
+    override func configNavigationbar(navigationColor: UIColor) {
+        super.configNavigationbar(navigationColor: navigationColor)
         navigationItem.title = UIResource.Text.mainDetailView.navigationTitle
     }
     

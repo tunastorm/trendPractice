@@ -34,8 +34,12 @@ class MainViewController: BaseViewController {
         configTableView()
     }
     
-    override func configNavigationbar() {
-        super.configNavigationbar()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func configNavigationbar(navigationColor: UIColor) {
+        super.configNavigationbar(navigationColor: navigationColor)
         let barButtonItem = UIBarButtonItem(image: UIResource.image.magnifyingGlass,
                                             style: .plain, target: self, action:#selector(goSearchPage))
         navigationItem.rightBarButtonItem = barButtonItem

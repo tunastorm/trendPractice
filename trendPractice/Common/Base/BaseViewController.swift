@@ -16,20 +16,31 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configNavigationbar()
     }
     
-    func configNavigationbar() {
-        self.navigationController?.navigationBar.tintColor = .black
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigationbar(navigationColor: .white)
+    }
+    
+    func configNavigationbar(navigationColor: UIColor) {
         navigationItem.backButtonTitle = ""
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        let textAttributes = navigationColor == .black ?
+        [NSAttributedString.Key.foregroundColor: UIColor.white] : [NSAttributedString.Key.foregroundColor: UIColor.black]
+       
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
+        appearance.backgroundColor = navigationColor
         appearance.shadowImage = nil
         appearance.titleTextAttributes = textAttributes
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        print(#function, navigationColor)
+        switch navigationColor {
+        case .white: self.navigationController?.navigationBar.tintColor = .black
+        case .black: self.navigationController?.navigationBar.tintColor = .white
+        default:  self.navigationController?.navigationBar.tintColor = .black
+        }
     }
 }

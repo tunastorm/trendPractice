@@ -16,6 +16,8 @@ class SearchView: BaseView {
     let searchBar = UISearchBar().then {
         $0.searchBarStyle = .minimal
         $0.placeholder = UIResource.Text.searchCollectionView.placeHolder
+        $0.tintColor = .white
+        $0.searchTextField.textColor = .white
     }
     
     lazy var collectionView = UICollectionView(frame: .zero,
@@ -60,7 +62,7 @@ class SearchView: BaseView {
     }
     
     override func configView() {
-        super.configView()
+        self.backgroundColor = .black
         collectionView.backgroundColor = .clear
     }
     

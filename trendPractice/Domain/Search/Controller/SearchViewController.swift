@@ -25,16 +25,16 @@ class SearchViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         configBaseSetting()
     }
     
-    override func configNavigationbar() {
-        super.configNavigationbar()
+    override func viewWillAppear(_ animated: Bool) {
+        configNavigationbar(navigationColor: .black)
+    }
+    
+    override func configNavigationbar(navigationColor: UIColor) {
+        super.configNavigationbar(navigationColor: navigationColor)
         navigationItem.title = UIResource.Text.searchCollectionView.navigationTitle
-//        let barbuttonItem = UIBarButtonItem(image: UIResource.image.chevronLeft, style: .plain, target: self, action: #selector(goMainView))
-//        navigationItem.hidesBackButton = true
-//        navigationItem.leftBarButtonItem = barbuttonItem
     }
     
     func configBaseSetting() {

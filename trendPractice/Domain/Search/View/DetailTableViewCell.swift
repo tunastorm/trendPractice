@@ -13,7 +13,7 @@ class DetailTableViewCell: BaseTableViewCell {
     let titleLabel = {
         let view = UILabel()
         view.font = .boldSystemFont(ofSize: 16)
-        view.textColor = .black
+        view.textColor = .white
         return view
     }()
     

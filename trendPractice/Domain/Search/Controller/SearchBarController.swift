@@ -10,8 +10,15 @@ import UIKit
 
 extension SearchViewController: UISearchBarDelegate {
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.text = ""
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.placeholder = nil
+        searchBar.text = nil
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.placeholder = UIResource.Text.searchCollectionView.placeHolder
+        return true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

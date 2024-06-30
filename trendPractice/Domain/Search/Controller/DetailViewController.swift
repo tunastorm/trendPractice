@@ -34,14 +34,18 @@ class DetailViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
         print(#function, imageVector.count)
         initialRequest()
+        configNavigationbar(navigationColor: .black)
         configTableView()
     }
     
-    override func configNavigationbar() {
-        super.configNavigationbar()
+    override func viewWillAppear(_ animated: Bool) {
+        configNavigationbar(navigationColor: .black)
+    }
+    
+    override func configNavigationbar(navigationColor: UIColor) {
+        super.configNavigationbar(navigationColor: navigationColor)
         navigationItem.title = UIResource.Text.detailView.navigationTitle
     }
     

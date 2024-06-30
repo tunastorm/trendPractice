@@ -43,6 +43,8 @@
 		BCEC00022C303E4D00C96564 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEC00012C303E4D00C96564 /* APIError.swift */; };
 		BCEC00042C3116F000C96564 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEC00032C3116F000C96564 /* Toast.swift */; };
 		BCEC00072C31170300C96564 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BCEC00062C31170300C96564 /* Toast */; };
+		BCEC00092C313C3600C96564 /* DetailTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEC00082C313C3600C96564 /* DetailTableHeaderView.swift */; };
+		BCEC000C2C31420400C96564 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BCEC000B2C31420400C96564 /* IQKeyboardManagerSwift */; };
 		BCECFFD72C2D9AAC00C96564 /* MainDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFD62C2D9AAC00C96564 /* MainDetailViewController.swift */; };
 		BCECFFD92C2D9ADA00C96564 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFD82C2D9ADA00C96564 /* BaseView.swift */; };
 		BCECFFDB2C2D9D8A00C96564 /* MainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECFFDA2C2D9D8A00C96564 /* MainDetailView.swift */; };
@@ -93,6 +95,7 @@
 		BCA5D22B2C184E0E005FA263 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		BCEC00012C303E4D00C96564 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		BCEC00032C3116F000C96564 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		BCEC00082C313C3600C96564 /* DetailTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableHeaderView.swift; sourceTree = "<group>"; };
 		BCECFFD62C2D9AAC00C96564 /* MainDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailViewController.swift; sourceTree = "<group>"; };
 		BCECFFD82C2D9ADA00C96564 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		BCECFFDA2C2D9D8A00C96564 /* MainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailView.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 				BCA5D1F82C16DA5C005FA263 /* Kingfisher in Frameworks */,
 				BCEC00072C31170300C96564 /* Toast in Frameworks */,
 				BCA5D1F52C16DA55005FA263 /* Then in Frameworks */,
+				BCEC000C2C31420400C96564 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +295,7 @@
 				BC9F6DD02C29C1C700D11B98 /* DetailView.swift */,
 				BC9F6E082C2ACBA200D11B98 /* DetailTableViewCell.swift */,
 				BC9F6DD22C29C93500D11B98 /* DetailCollectionViewCell.swift */,
+				BCEC00082C313C3600C96564 /* DetailTableHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 				BCA5D1FA2C16DA67005FA263 /* SnapKit */,
 				BCA5D1FD2C16DA71005FA263 /* Alamofire */,
 				BCEC00062C31170300C96564 /* Toast */,
+				BCEC000B2C31420400C96564 /* IQKeyboardManagerSwift */,
 			);
 			productName = trendPractice;
 			productReference = BCA5D1CE2C16C89C005FA263 /* trendPractice.app */;
@@ -382,6 +388,7 @@
 				BCA5D1F92C16DA67005FA263 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				BCA5D1FC2C16DA71005FA263 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				BCEC00052C31170300C96564 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				BCEC000A2C31420400C96564 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = BCA5D1CF2C16C89C005FA263 /* Products */;
 			projectDirPath = "";
@@ -417,6 +424,7 @@
 				BC9F6DCB2C298F8200D11B98 /* DetailViewController.swift in Sources */,
 				BC9502542C18ADE0004070B8 /* UserDefaultManager.swift in Sources */,
 				BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */,
+				BCEC00092C313C3600C96564 /* DetailTableHeaderView.swift in Sources */,
 				BCECFFEE2C2FC82900C96564 /* BaseViewController.swift in Sources */,
 				BCA5D2262C183A28005FA263 /* SearchCollectionViewController.swift in Sources */,
 				BCECFFE72C2FC17700C96564 /* MainTableViewController.swift in Sources */,
@@ -719,6 +727,14 @@
 				minimumVersion = 5.1.1;
 			};
 		};
+		BCEC000A2C31420400C96564 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -746,6 +762,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BCEC00052C31170300C96564 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		BCEC000B2C31420400C96564 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCEC000A2C31420400C96564 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -11,8 +11,14 @@ import UIKit
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return contentsName
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return contentsName
+//    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = DetailTableHeaderView()
+        headerView.titleLabel.text = contentsName
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

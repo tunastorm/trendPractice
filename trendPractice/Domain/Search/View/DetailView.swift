@@ -25,7 +25,7 @@ class DetailView: BaseView {
     }
     
     override func configView() {
-        super.configView()
+        self.backgroundColor = .black
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
     }

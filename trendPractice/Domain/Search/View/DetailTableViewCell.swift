@@ -22,11 +22,21 @@ class DetailTableViewCell: BaseTableViewCell {
 
     static func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 120, height: 160)
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        
+        let horizontalCount = CGFloat(3)
+        let verticalCount = CGFloat(4)
+        let lineSpacing = CGFloat(10)
+        let itemSpacing = CGFloat(5)
+        let inset = CGFloat(10)
+        
+        let width: Double = UIScreen.main.bounds.width - 40.0
+        let height: Double =  UIScreen.main.bounds.height - 90.0
+        layout.itemSize = CGSize(width: width / horizontalCount, height: height / verticalCount)
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = lineSpacing
+        layout.minimumInteritemSpacing = itemSpacing
+        layout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        
         return layout
     }
     
@@ -42,7 +52,7 @@ class DetailTableViewCell: BaseTableViewCell {
         }
         
         collectionView.snp.makeConstraints {
-            $0.height.equalTo(180)
+            $0.height.equalTo(190)
             $0.horizontalEdges.bottom.equalTo(contentView)
             $0.top.equalTo(titleLabel.snp.bottom)
         }

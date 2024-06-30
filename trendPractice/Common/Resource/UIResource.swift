@@ -26,9 +26,11 @@ struct UIResource {
         case mainCellCast
         case mainDetailView
         case searchCollectionView
+        case detailView
         case detailViewSimilar
         case detailViewRecommand
-        case detailViewTitle
+        case detailViewPoster
+        
         
         var sign: String {
             switch self {
@@ -41,6 +43,7 @@ struct UIResource {
             switch self {
             case .mainDetailView: return "출연/제작"
             case .searchCollectionView: return  "콘텐츠 검색"
+            case .detailView: return  "추천 콘텐츠"
             default: return "\(self) is Wrong Case for title"
             }
         }
@@ -53,7 +56,7 @@ struct UIResource {
             case .mainCellCast: return "Cast"
             case .detailViewSimilar: return "비슷한 "
             case .detailViewRecommand: return "추천 "
-            case .detailViewTitle: return "포스터"
+            case .detailViewPoster: return "포스터"
             default: return "\(self) is Wrong Case for rateTitle"
             }
         }
@@ -107,6 +110,7 @@ struct SystemImage {
     let chevronLeft = UIImage(systemName: "chevron.left")
     let chevronDown = UIImage(systemName: "chevron.down")
     let chevronUp = UIImage(systemName: "chevron.up")
+    let wifiExclamationmark = UIImage(systemName: "wifi.exclamationmark")!.withTintColor(.white, renderingMode: .alwaysOriginal)
 }
 
 struct Opacity {

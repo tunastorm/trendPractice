@@ -59,5 +59,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     
+    func changeRootVC(_ vc: UIViewController, animated: Bool) {
+        guard let window = self.window else { return }
+        window.rootViewController = vc
+        
+        UIView.transition(with: window, duration: 2.0, options: [], animations: nil, completion: nil)
+    }
+    
+    func changeRootVCWithNavi(_ vc: UIViewController, animated: Bool) {
+        guard let window = self.window else { return }
+        let nav = UINavigationController(rootViewController: vc)
+        window.rootViewController = nav
+        
+        UIView.transition(with: window, duration: 2.0, options: [], animations: nil, completion: nil)
+    }
 }
 

@@ -13,10 +13,10 @@ protocol DetailViewImage {
 }
 
 
-class DetailViewController: UIViewController {
+class DetailViewController: BaseViewController {
    
     
-    let detailView = DetailView()
+    let rootView = DetailView()
     
     var mediaType: APIConstants.MediaType?
     var contentsId: Int?
@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
 
     
     override func loadView() {
-        view = detailView
+        view = rootView
     }
 
     override func viewDidLoad() {
@@ -40,10 +40,16 @@ class DetailViewController: UIViewController {
         configTableView()
     }
     
+    override func configNavigationbar() {
+        super.configNavigationbar()
+        navigationItem.title = UIResource.Text.detailView.navigationTitle
+    }
+    
+    
     private func configTableView() {
-        detailView.tableView.delegate = self
-        detailView.tableView.dataSource = self
-        detailView.tableView.register(DetailTableViewCell.self,
+        rootView.tableView.delegate = self
+        rootView.tableView.dataSource = self
+        rootView.tableView.register(DetailTableViewCell.self,
                            forCellReuseIdentifier: DetailTableViewCell.identifier)
     }
     
@@ -54,11 +60,13 @@ class DetailViewController: UIViewController {
         let router = APIRouter.similerAPI(contentsType: mediaType, contentsId: contentsId, page: page)
         APIClient.request(TMDBResponse.self, router: router) { similar, error in
             guard error == nil, let similar, let resultList = similar.results else {
+                self.rootView.networkErrorEvent(error: error)
                 return
             }
+            print(#function, resultList)
             self.imageVector[idx].append(contentsOf: resultList)
             self.responseList[idx].page = similar.page
-            let cell = self.detailView.tableView.cellForRow(at: [0,idx]) as! DetailTableViewCell
+            let cell = self.rootView.tableView.cellForRow(at: [0,idx]) as! DetailTableViewCell
             cell.collectionView.reloadData()
         }
     }
@@ -70,11 +78,12 @@ class DetailViewController: UIViewController {
         let router = APIRouter.recommendationsAPI(contentsType: mediaType, contentsId: contentsId, page: page)
         APIClient.request(TMDBResponse.self, router: router) { recommandations, error in
             guard error == nil, let recommandations, let resultList = recommandations.results else {
+                self.rootView.networkErrorEvent(error: error)
                 return
             }
             self.imageVector[idx].append(contentsOf: resultList)
             self.responseList[idx].page = recommandations.page
-            let cell = self.detailView.tableView.cellForRow(at: [0,idx]) as! DetailTableViewCell
+            let cell = self.rootView.tableView.cellForRow(at: [0,idx]) as! DetailTableViewCell
             cell.collectionView.reloadData()
         }
     }
@@ -87,11 +96,13 @@ class DetailViewController: UIViewController {
         let recommandations = APIRouter.recommendationsAPI(contentsType: mediaType, contentsId: contentsId, page: 1)
         let images = APIRouter.imagesAPI(contentsType: mediaType, contentsId: contentsId, includeImageLanguage: APIConstants.includeImageLanguage)
         
+        var succeesList: [Bool] = [false, false, false]
+        
         group.enter()
         DispatchQueue.global().async(group: group) {
             APIClient.request(TMDBResponse.self, router: similar) { similar, error in
                 guard error == nil, let similar, let resultList = similar.results else {
-                    print(#function, error)
+                    self.rootView.networkErrorEvent(error: error)
                     group.leave()
                     return
                 }
@@ -106,7 +117,7 @@ class DetailViewController: UIViewController {
         DispatchQueue.global().async(group: group) {
             APIClient.request(TMDBResponse.self, router: recommandations){ recommandations, error in
                 guard error == nil, let recommandations, let resultList = recommandations.results else {
-                    print(#function, error)
+                    self.rootView.networkErrorEvent(error: error)
                     group.leave()
                     return
                 }
@@ -121,7 +132,7 @@ class DetailViewController: UIViewController {
         DispatchQueue.global().async(group: group)  {
             APIClient.request(ImagesResponse.self, router: images) { images, error in
                 guard error == nil, let images else {
-                    print(#function, error)
+                    self.rootView.networkErrorEvent(error: error)
                     group.leave()
                     return
                 }
@@ -131,8 +142,15 @@ class DetailViewController: UIViewController {
         }
         
         group.notify(queue: .main) {
-            print(#function, self.imageVector)
-            self.detailView.tableView.reloadData()
+            self.rootView.tableView.reloadData()
+            self.imageVector.enumerated().forEach{ idx, imageList in
+                if imageList.count <= 0 {
+                    guard let cell = self.rootView.tableView.cellForRow(at: [0,idx]) else {
+                        return
+                    }
+                    cell.isHidden = true
+                }
+            }
         }
     }
 }

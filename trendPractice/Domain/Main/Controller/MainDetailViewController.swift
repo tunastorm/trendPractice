@@ -40,7 +40,6 @@ class MainDetailViewController: BaseViewController {
     }
     
     override func configNavigationbar() {
-        super.configNavigationbar()
         navigationItem.title = UIResource.Text.mainDetailView.navigationTitle
     }
     
@@ -79,7 +78,7 @@ class MainDetailViewController: BaseViewController {
         let router = APIRouter.creditsAPI(contentsType: mediaType, contentsId: data.id)
         APIClient.request(Credits.self, router: router) { credits, error in
             guard error == nil, let credits else {
-                print(#function, error)
+                self.rootView.networkErrorEvent(error: error)
                 return
             }
             self.castData = credits.cast.filter { cast in

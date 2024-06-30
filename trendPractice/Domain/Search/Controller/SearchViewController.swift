@@ -32,9 +32,9 @@ class SearchViewController: BaseViewController {
     override func configNavigationbar() {
         super.configNavigationbar()
         navigationItem.title = UIResource.Text.searchCollectionView.navigationTitle
-        let barbuttonItem = UIBarButtonItem(image: UIResource.image.chevronLeft, style: .plain, target: self, action: #selector(goMainView))
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = barbuttonItem
+//        let barbuttonItem = UIBarButtonItem(image: UIResource.image.chevronLeft, style: .plain, target: self, action: #selector(goMainView))
+//        navigationItem.hidesBackButton = true
+//        navigationItem.leftBarButtonItem = barbuttonItem
     }
     
     func configBaseSetting() {
@@ -47,14 +47,19 @@ class SearchViewController: BaseViewController {
     }
     
     @objc func goMainView() {
-        popToRootView(animated: false)
+        navigationItem.leftBarButtonItem?.isHidden = true
+        popToRootView(animated: true)
     }
     
     func requestSearch(query: String, page: Int) {
         let router = APIRouter.searchAPI(query: query, page: page)
         APIClient.request(SearchResponse.self, router: router) { search, error in
             guard error == nil, let search else {
-                print(#function, error)
+                self.rootView.networkErrorEvent(error: error)
+                return
+            }
+            guard search.results.count > 0 else {
+                self.rootView.networkErrorEvent(error: APIError.noResultError)
                 return
             }
             self.updateData(response: search)

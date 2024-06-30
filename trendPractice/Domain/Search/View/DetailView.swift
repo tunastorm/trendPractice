@@ -25,8 +25,12 @@ class DetailView: BaseView {
     }
     
     override func configView() {
-        self.backgroundColor = .white
+        super.configView()
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+    }
+    
+    func networkErrorEvent(error: APIError?) {
+        error?.showToast()
     }
 }

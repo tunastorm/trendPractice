@@ -32,6 +32,7 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configView() {
+        self.backgroundColor = .clear
         imageView.layer.cornerRadius = radiousValue
         imageView.layer.masksToBounds = true
     }

@@ -167,5 +167,7 @@ class MainDetailView: BaseView {
         }
     }
     
-    
+    func networkErrorEvent(error: APIError?) {
+        error?.showToast()
+    }
 }

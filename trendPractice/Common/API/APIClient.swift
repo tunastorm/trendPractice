@@ -11,7 +11,7 @@ import Alamofire
 
 
 class APIClient {
-    typealias completionHandler<T> = (T?, AFError?) -> Void
+    typealias completionHandler<T> = (T?, APIError?) -> Void
     
     static func request<T>(_ object: T.Type,
                            router: APIRouter,
@@ -24,12 +24,49 @@ class APIClient {
                 switch response.result {
                 case .success:
                     guard let decodedData = response.value else {return}
-                    dump(decodedData)
+//                    dump(decodedData)
                     completionHandler(decodedData, nil)
                 case .failure(let error):
                     dump(error)
-                    completionHandler(nil, error)
+                    guard let errorCode = error.responseCode else {
+                        let apiError = convertAFError(error: error)
+                        completionHandler(nil, apiError)
+                        return
+                    }
+                    let apiError = convertResponseStatus(errorCode: errorCode)
+                    completionHandler(nil, apiError)
                 }
             }
     }
+    
+    private static func convertAFError(error: AFError) -> APIError {
+        var apiError: APIError
+        switch error {
+        case .sessionDeinitialized:
+            apiError = APIError.networkError
+        case .sessionInvalidated(let error):
+            apiError = APIError.networkError
+        case .sessionTaskFailed(let error):
+            apiError = APIError.networkError
+        case .responseSerializationFailed:
+            apiError = APIError.noResultError
+        default: apiError = APIError.unExpectedError
+        }
+        return apiError
+    }
+    
+    private static func convertResponseStatus(errorCode: Int) -> APIError {
+        var apiError = APIError.noResultError
+        switch errorCode {
+        case 300 ..< 400:
+            apiError = APIError.redirectError
+        case 400 ..< 500:
+            apiError = APIError.clientError
+        case 500 ..< 600:
+            apiError = APIError.serverError
+        default: APIError.networkError
+        }
+        return apiError
+    }
+      
 }

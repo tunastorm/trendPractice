@@ -60,6 +60,12 @@ class SearchView: BaseView {
     }
     
     override func configView() {
-       super.configView()
+        super.configView()
+        collectionView.backgroundColor = .clear
     }
+    
+    func networkErrorEvent(error: APIError?) {
+        error?.showToast()
+    }
+    
 }

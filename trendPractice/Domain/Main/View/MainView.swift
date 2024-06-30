@@ -30,4 +30,8 @@ class MainView: BaseView {
     override func configView() {
         super.configView()
     }
+    
+    func networkErrorEvent(error: APIError?) {
+        error?.showToast()
+    }
 }

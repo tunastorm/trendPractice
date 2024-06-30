@@ -62,7 +62,7 @@ class MainViewController: BaseViewController {
         group.enter()
         APIClient.request(TMDBResponse.self, router: trending) { trending, error in
             guard error == nil, let trending else {
-                print(#function, error)
+                self.rootView.networkErrorEvent(error: error)
                 group.leave()
                 return
             }
@@ -72,7 +72,7 @@ class MainViewController: BaseViewController {
         group.enter()
         APIClient.request(GenreResponse.self, router: movieGenre) { movieGenre, error in
             guard error == nil, let movieGenre else {
-                print(#function, error)
+                self.rootView.networkErrorEvent(error: error)
                 group.leave()
                 return
             }
@@ -82,7 +82,7 @@ class MainViewController: BaseViewController {
         group.enter()
         APIClient.request(GenreResponse.self, router: tvGenre) { tvGenre, error in
             guard error == nil, let tvGenre else {
-                print(#function, error)
+                self.rootView.networkErrorEvent(error: error)
                 group.leave()
                 return
             }
@@ -98,7 +98,7 @@ class MainViewController: BaseViewController {
         let router = APIRouter.creditsAPI(contentsType: contentsType, contentsId: contentsId)
         APIClient.request(Credits.self, router: router) { credits, error in
             guard error == nil, let credits else {
-                print(#function, error)
+                self.rootView.networkErrorEvent(error: error)
                 return
             }
             self.castDict[contentsType]?[credits.id] = credits.cast
@@ -108,5 +108,6 @@ class MainViewController: BaseViewController {
     
     @objc func goSearchPage() {
         pushAfterView(view: searchVC, backButton: true, animated: true)
+//        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootVCWithNavi(searchVC, animated: false)
     }
 }

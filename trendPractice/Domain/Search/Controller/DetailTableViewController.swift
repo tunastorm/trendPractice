@@ -21,6 +21,20 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier, for: indexPath) as! DetailTableViewCell
+        configCollectionView(cell: cell, indexPath: indexPath)
+    
+        if let mediaType, indexPath.row < imageVector.count-1 {
+            cell.configCell(mediaType: mediaType, rowIndex: indexPath.row)
+        } else if let mediaType {
+            cell.titleLabel.text = UIResource.Text.detailViewPoster.label
+        }
+        
+        cell.collectionView.reloadData()
+        
+        return cell
+    }
+    
+    func configCollectionView(cell: DetailTableViewCell, indexPath: IndexPath) {
         cell.collectionView.delegate = self
         cell.collectionView.dataSource = self
         cell.collectionView.prefetchDataSource = self
@@ -28,15 +42,5 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                       forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
         cell.collectionView.tag = indexPath.row
         cell.collectionView.backgroundColor = .clear
-        
-        if let mediaType, indexPath.row < imageVector.count-1 {
-            cell.configCell(mediaType: mediaType, rowIndex: indexPath.row)
-        } else if let mediaType {
-            cell.titleLabel.text = mediaType.kr
-        }
-        
-        cell.collectionView.reloadData()
-        
-        return cell
     }
 }

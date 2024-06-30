@@ -27,7 +27,7 @@ enum APIError {
         case .redirectError:
             return "[ 리소스 경로 변경 ]"
         case .clientError:
-            return " 잘못된 요청 ]"
+            return "[ 잘못된 요청 ]"
         case .serverError:
             return "[ 서비스 상태 불량 ]"
         }

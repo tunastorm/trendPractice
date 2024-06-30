@@ -15,6 +15,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
 //        return contentsName
 //    }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var height = UITableView.automaticDimension
+        if imageVector[indexPath.row].count == 0 {
+            height = 0
+        }
+        return height
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = DetailTableHeaderView()
         headerView.titleLabel.text = contentsName

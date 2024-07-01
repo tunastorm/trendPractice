@@ -15,7 +15,6 @@ protocol DetailViewImage {
 
 class DetailViewController: BaseViewController {
    
-    
     let rootView = DetailView()
     
     var mediaType: APIConstants.MediaType?

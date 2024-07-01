@@ -36,7 +36,6 @@ class BaseViewController: UIViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        print(#function, navigationColor)
         switch navigationColor {
         case .white: self.navigationController?.navigationBar.tintColor = .black
         case .black: self.navigationController?.navigationBar.tintColor = .white

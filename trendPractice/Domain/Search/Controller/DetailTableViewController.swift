@@ -55,6 +55,5 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.collectionView.register(DetailCollectionViewCell.self,
                       forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
         cell.collectionView.tag = indexPath.row
-        cell.collectionView.backgroundColor = .clear
     }
 }

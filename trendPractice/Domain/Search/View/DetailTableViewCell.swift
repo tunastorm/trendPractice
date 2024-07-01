@@ -60,6 +60,7 @@ class DetailTableViewCell: BaseTableViewCell {
     
     override func configView() {
        self.backgroundColor = .clear
+        collectionView.backgroundColor = .clear
     }
     
     func configCell(mediaType: APIConstants.MediaType,rowIndex: Int) {

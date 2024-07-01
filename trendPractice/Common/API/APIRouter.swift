@@ -60,13 +60,14 @@ enum APIRouter: URLRequestConvertible {
     case recommendationsAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
     case searchAPI(query: String, page: Int)
     case imagesAPI(contentsType: APIConstants.MediaType, contentsId: Int, includeImageLanguage: String)
+    case videoAPI(contentsType: APIConstants.MediaType, contentsId: Int)
     
     
 
     // MARK: Methods
     var method: HTTPMethod {
         switch self {
-        case .trendingAPI, .genreAPI, .creditsAPI, .imagesAPI, .similerAPI, .recommendationsAPI, .searchAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI, .imagesAPI, .similerAPI, .recommendationsAPI, .searchAPI, .videoAPI:
             return .get
         }
     }
@@ -86,6 +87,8 @@ enum APIRouter: URLRequestConvertible {
             return "\(contentsType)/\(contentsId)/recommendations"
         case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
             return "\(contentsType)/\(contentsId)/images"
+        case .videoAPI(let contentsType, let contentsId):
+            return "\(contentsType)/\(contentsId)/videos"
         case .searchAPI:
             return "search/multi"
         }
@@ -107,6 +110,9 @@ enum APIRouter: URLRequestConvertible {
         case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
             Self.baseParameters["include_image_language"] = includeImageLanguage
             return Self.baseParameters
+        case .videoAPI(let contentsType, let contentsId):
+            Self.baseParameters["include_image_language"] = APIConstants.includeImageLanguage
+            return Self.baseParameters
         case .searchAPI(let query, let page):
             Self.baseParameters["query"] = query
             Self.baseParameters["include_adult"] = false
@@ -123,7 +129,7 @@ enum APIRouter: URLRequestConvertible {
     // MARK: Encodings
     var encoding: ParameterEncoding {
         switch self {
-        case .trendingAPI, .genreAPI, .creditsAPI, .similerAPI, .recommendationsAPI, .imagesAPI, .searchAPI:
+        case .trendingAPI, .genreAPI, .creditsAPI, .similerAPI, .recommendationsAPI, .imagesAPI, .searchAPI, .videoAPI:
             return URLEncoding.default
         }
     }

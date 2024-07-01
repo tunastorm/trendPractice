@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1ED3162C32CADF00BFD44A /* NasaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3152C32CADF00BFD44A /* NasaViewController.swift */; };
 		BC9502522C188519004070B8 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9502512C188519004070B8 /* SearchCollectionViewCell.swift */; };
 		BC9502542C18ADE0004070B8 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */; };
 		BC9F6DC92C298E0200D11B98 /* TMDBResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */; };
@@ -63,6 +64,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC1ED3152C32CADF00BFD44A /* NasaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaViewController.swift; sourceTree = "<group>"; };
 		BC9502512C188519004070B8 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBResponse.swift; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC1ED3142C32CACF00BFD44A /* Nasa */ = {
+			isa = PBXGroup;
+			children = (
+				BC1ED3152C32CADF00BFD44A /* NasaViewController.swift */,
+			);
+			path = Nasa;
+			sourceTree = "<group>";
+		};
 		BCA5D1C52C16C89C005FA263 = {
 			isa = PBXGroup;
 			children = (
@@ -217,6 +227,7 @@
 		BCECFFE22C2EE80B00C96564 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				BC1ED3142C32CACF00BFD44A /* Nasa */,
 				BCA5D1F02C16DA0F005FA263 /* Main */,
 				BCA5D2212C183801005FA263 /* Search */,
 			);
@@ -423,6 +434,7 @@
 				BCECFFD92C2D9ADA00C96564 /* BaseView.swift in Sources */,
 				BC9F6DCB2C298F8200D11B98 /* DetailViewController.swift in Sources */,
 				BC9502542C18ADE0004070B8 /* UserDefaultManager.swift in Sources */,
+				BC1ED3162C32CADF00BFD44A /* NasaViewController.swift in Sources */,
 				BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */,
 				BCEC00092C313C3600C96564 /* DetailTableHeaderView.swift in Sources */,
 				BCECFFEE2C2FC82900C96564 /* BaseViewController.swift in Sources */,

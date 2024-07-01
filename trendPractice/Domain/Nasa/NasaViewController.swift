@@ -125,9 +125,9 @@ extension NasaViewController: URLSessionDelegate, URLSessionDataDelegate {
             }
             self.total = total
             buffer = Data()
-            
             return .allow
         } else {
+            nasaImageView.image = UIImage(systemName: "network.slash")
             return .cancel
         }
     }
@@ -142,6 +142,7 @@ extension NasaViewController: URLSessionDelegate, URLSessionDataDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: (any Error)?) {
         if let error = error {
             progressLabel.text = "에러가 발생했습니다"
+            nasaImageView.image = UIImage(systemName: "network.slash")
         } else {
             guard let buffer = buffer else {
                 return

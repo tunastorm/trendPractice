@@ -28,6 +28,12 @@ final class NasaViewController: UIViewController {
         }
     }
     
+    private enum TaskStatus: String {
+        case idle
+        case start
+    }
+    
+    
     private let nasaImageView = UIImageView()
     private let progressLabel = UILabel()
     private let requestButton = UIButton()
@@ -40,6 +46,7 @@ final class NasaViewController: UIViewController {
         }
     }
     
+    private var taskStatus = TaskStatus.idle
     private var session: URLSession?
     
     override func viewDidLoad() {
@@ -86,9 +93,14 @@ final class NasaViewController: UIViewController {
     }
     
     private func callRequest() {
+        guard taskStatus == .idle else {
+            makeToast(message: "이미지 다운로드가 진행중입니다", duration: 3.0, position: .bottom, title: "[ 다운로드 진행중 ]")
+            return
+        }
         session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
         let request = URLRequest(url: Nasa.photo)
         session?.dataTask(with: request).resume()
+        taskStatus = .start
     }
     
     @objc private func requestButtonClicked() {
@@ -97,7 +109,11 @@ final class NasaViewController: UIViewController {
                             
 }
 
-extension NasaViewController: URLSessionDataDelegate {
+extension NasaViewController: URLSessionDelegate, URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        taskStatus = .idle
+    }
+    
    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse) async -> URLSession.ResponseDisposition {
         
         if let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) {

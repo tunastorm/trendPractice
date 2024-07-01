@@ -79,7 +79,6 @@ class MainTableViewCell: BaseTableViewCell {
     }
     
     func configGenreData(_ data: [Genre]) {
-        
         guard let tag = tagLabel.text else {return}
         
         if tag.count > 1 {

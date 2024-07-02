@@ -19,8 +19,8 @@ class DetailTableViewVideoCell: BaseTableViewCell {
     let videoLayout = {
         let layout = UICollectionViewFlowLayout()
         
-        let horizontalCount = CGFloat(3)
-        let verticalCount = CGFloat(3)
+        let horizontalCount = CGFloat(1)
+        let verticalCount = CGFloat(2)
         let lineSpacing = CGFloat(10)
         let itemSpacing = CGFloat(5)
         let inset = CGFloat(10)
@@ -82,8 +82,8 @@ class DetailTableViewVideoCell: BaseTableViewCell {
     }
     
     func configCell(rowIdx: Int) {
-        collectionView.tag = rowIdx
         titleLabel.text = UIResource.Text.detailViewVideo.label
+        print(#function, "videoCell configed")
     }
 }
 

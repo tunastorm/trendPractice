@@ -33,6 +33,7 @@ class DetailCollectionViewVideoCell: BaseCollectionViewCell {
     }
     
     func configCell(data: DetailViewImage, mediaType: APIConstants.MediaType) {
+        print(#function, data.imagePath)
         guard let imagePath = data.imagePath, let url = URL(string: TMDB.youTubeBaseURL + imagePath) else {
             print(#function, "cell config 실패")
             return

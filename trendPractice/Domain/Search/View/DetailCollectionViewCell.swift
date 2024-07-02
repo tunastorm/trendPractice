@@ -39,11 +39,13 @@ class DetailCollectionViewCell: BaseCollectionViewCell {
     
     func configCell(data: DetailViewImage, mediaType: APIConstants.MediaType) {
         guard let imagePath = data.imagePath else {
+            print(#function, "imagePath 없음")
             return
         }
         self.mediaType = mediaType
         let url = URL(string: UIResource.Text.imageBaseURL + imagePath)
         guard let url else {
+            print(#function, "url없음")
             return
         }
         imageView.kf.setImage(with: url)

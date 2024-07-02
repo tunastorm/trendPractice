@@ -8,8 +8,10 @@
 import UIKit
 
 
+
 extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(#function, collectionView.tag, imageVector[collectionView.tag].count)
         return imageVector[collectionView.tag].count
     }
     
@@ -18,7 +20,7 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let tableRowIdx = collectionView.tag
         let itemIdx = indexPath.row
         
-        print(#function, mediaType, tableRowIdx)
+        print(#function, tableRowIdx)
         guard let mediaType, imageVector[tableRowIdx].count > 0 else {
             return UICollectionViewCell()
         }

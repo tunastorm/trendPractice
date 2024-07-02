@@ -33,9 +33,12 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print(#function, mediaType, indexPath.row)
-        guard let mediaType else {
+        guard let mediaType, imageVector[indexPath.row].count > 0 else {
+            let cell = UITableViewCell()
+            cell.isHidden = true
             return UITableViewCell()
         }
+        
         
         var cell: UITableViewCell?
         print(#function, indexPath.row)
@@ -46,10 +49,12 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             imageCell.collectionView.reloadData()
             cell = imageCell
         } else {
+            print(#function, "videoCell")
             let videoCell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewVideoCell.identifier, for: indexPath) as! DetailTableViewVideoCell
             videoCell.configCell(rowIdx: indexPath.row)
-            configCollectionView(cell: videoCell, indexPath: indexPath)
+            configVideoCollectionView(cell: videoCell, indexPath: indexPath)
             videoCell.collectionView.reloadData()
+            cell = videoCell
         }
        
         guard let cell else {
@@ -67,12 +72,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.collectionView.tag = indexPath.row
     }
     
-    func configCollectionView(cell: DetailTableViewVideoCell, indexPath: IndexPath) {
+    func configVideoCollectionView(cell: DetailTableViewVideoCell, indexPath: IndexPath) {
         cell.collectionView.delegate = self
         cell.collectionView.dataSource = self
         cell.collectionView.prefetchDataSource = self
         cell.collectionView.register(DetailCollectionViewVideoCell.self,
                       forCellWithReuseIdentifier: DetailCollectionViewVideoCell.identifier)
         cell.collectionView.tag = indexPath.row
+        print(#function, "\(cell.collectionView.tag)")
     }
 }

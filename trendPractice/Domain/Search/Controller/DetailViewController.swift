@@ -163,14 +163,16 @@ class DetailViewController: BaseViewController {
         group.notify(queue: .main) {
             print(#function, self.imageVector.count)
             self.rootView.tableView.reloadData()
-            self.imageVector.enumerated().forEach{ idx, imageList in
-                if imageList.count <= 0 {
-                    guard let cell = self.rootView.tableView.cellForRow(at: [0,idx]) else {
-                        return
-                    }
-                    cell.isHidden = true
-                }
-            }
+//            self.imageVector.enumerated().forEach{ idx, imageList in
+//                if imageList.count <= 0 {
+//                    guard let cell = self.rootView.tableView.cellForRow(at: [0,idx]) else {
+//                        print(#function, idx, "cancle")
+//                        return
+//                    }
+//                    print(#function, idx, "hidden")
+//                    cell.isHidden = true
+//                }
+//            }
         }
     }
 }

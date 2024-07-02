@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BC1ED3162C32CADF00BFD44A /* NasaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3152C32CADF00BFD44A /* NasaViewController.swift */; };
+		BC1ED31A2C32D76A00BFD44A /* VideoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3192C32D76A00BFD44A /* VideoResponse.swift */; };
+		BC1ED31C2C32DDB100BFD44A /* DetailTableViewVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED31B2C32DDB100BFD44A /* DetailTableViewVideoCell.swift */; };
+		BC1ED31E2C32DF1700BFD44A /* DetailCollectionViewVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED31D2C32DF1700BFD44A /* DetailCollectionViewVideoCell.swift */; };
 		BC9502522C188519004070B8 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9502512C188519004070B8 /* SearchCollectionViewCell.swift */; };
 		BC9502542C18ADE0004070B8 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */; };
 		BC9F6DC92C298E0200D11B98 /* TMDBResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */; };
@@ -65,6 +68,9 @@
 
 /* Begin PBXFileReference section */
 		BC1ED3152C32CADF00BFD44A /* NasaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaViewController.swift; sourceTree = "<group>"; };
+		BC1ED3192C32D76A00BFD44A /* VideoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoResponse.swift; sourceTree = "<group>"; };
+		BC1ED31B2C32DDB100BFD44A /* DetailTableViewVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewVideoCell.swift; sourceTree = "<group>"; };
+		BC1ED31D2C32DF1700BFD44A /* DetailCollectionViewVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewVideoCell.swift; sourceTree = "<group>"; };
 		BC9502512C188519004070B8 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC9502532C18ADE0004070B8 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		BC9F6DC82C298E0200D11B98 /* TMDBResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBResponse.swift; sourceTree = "<group>"; };
@@ -294,6 +300,7 @@
 			children = (
 				BCA5D2222C18383E005FA263 /* SearchResponse.swift */,
 				BC9F6E042C2ABCA800D11B98 /* ImagesResponse.swift */,
+				BC1ED3192C32D76A00BFD44A /* VideoResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -304,9 +311,11 @@
 				BCECFFFB2C2FCF3F00C96564 /* SearchView.swift */,
 				BC9502512C188519004070B8 /* SearchCollectionViewCell.swift */,
 				BC9F6DD02C29C1C700D11B98 /* DetailView.swift */,
-				BC9F6E082C2ACBA200D11B98 /* DetailTableViewCell.swift */,
-				BC9F6DD22C29C93500D11B98 /* DetailCollectionViewCell.swift */,
 				BCEC00082C313C3600C96564 /* DetailTableHeaderView.swift */,
+				BC9F6E082C2ACBA200D11B98 /* DetailTableViewCell.swift */,
+				BC1ED31B2C32DDB100BFD44A /* DetailTableViewVideoCell.swift */,
+				BC9F6DD22C29C93500D11B98 /* DetailCollectionViewCell.swift */,
+				BC1ED31D2C32DF1700BFD44A /* DetailCollectionViewVideoCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -434,6 +443,7 @@
 				BCECFFD92C2D9ADA00C96564 /* BaseView.swift in Sources */,
 				BC9F6DCB2C298F8200D11B98 /* DetailViewController.swift in Sources */,
 				BC9502542C18ADE0004070B8 /* UserDefaultManager.swift in Sources */,
+				BC1ED31C2C32DDB100BFD44A /* DetailTableViewVideoCell.swift in Sources */,
 				BC1ED3162C32CADF00BFD44A /* NasaViewController.swift in Sources */,
 				BCA5D2072C175AE3005FA263 /* UIResource.swift in Sources */,
 				BCEC00092C313C3600C96564 /* DetailTableHeaderView.swift in Sources */,
@@ -446,9 +456,11 @@
 				BCA5D22C2C184E0E005FA263 /* APIRouter.swift in Sources */,
 				BC9F6E092C2ACBA200D11B98 /* DetailTableViewCell.swift in Sources */,
 				BCA5D22A2C184D86005FA263 /* APIClient.swift in Sources */,
+				BC1ED31A2C32D76A00BFD44A /* VideoResponse.swift in Sources */,
 				BCA5D2122C17940A005FA263 /* Genre.swift in Sources */,
 				BC9502522C188519004070B8 /* SearchCollectionViewCell.swift in Sources */,
 				BCEC00002C30224400C96564 /* Result.swift in Sources */,
+				BC1ED31E2C32DF1700BFD44A /* DetailCollectionViewVideoCell.swift in Sources */,
 				BCEC00042C3116F000C96564 /* Toast.swift in Sources */,
 				BCA5D1ED2C16CFAB005FA263 /* ReusableIdentifier.swift in Sources */,
 				BCECFFD72C2D9AAC00C96564 /* MainDetailViewController.swift in Sources */,

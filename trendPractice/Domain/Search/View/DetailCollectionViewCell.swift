@@ -13,7 +13,7 @@ import Kingfisher
 
 class DetailCollectionViewCell: BaseCollectionViewCell {
     
-    var contentsType: APIConstants.MediaType?
+    var mediaType: APIConstants.MediaType?
     
     private var radiousValue: CGFloat = UIResource.Number.mainViewVideoUIView.cornerRadious
     
@@ -37,13 +37,15 @@ class DetailCollectionViewCell: BaseCollectionViewCell {
         imageView.layer.masksToBounds = true
     }
     
-    func configCell(data: DetailViewImage, contentsType: APIConstants.MediaType) {
+    func configCell(data: DetailViewImage, mediaType: APIConstants.MediaType) {
         guard let imagePath = data.imagePath else {
             return
         }
-        self.contentsType = contentsType
+        self.mediaType = mediaType
         let url = URL(string: UIResource.Text.imageBaseURL + imagePath)
-        guard let url else {return}
+        guard let url else {
+            return
+        }
         imageView.kf.setImage(with: url)
     }
 }

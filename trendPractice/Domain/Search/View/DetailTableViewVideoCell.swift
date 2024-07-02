@@ -1,14 +1,13 @@
 //
-//  DetailTableViewCell.swift
+//  DetailTableViewVideoCell.swift
 //  trendPractice
 //
-//  Created by 유철원 on 6/25/24.
+//  Created by 유철원 on 7/1/24.
 //
 
 import UIKit
 
-
-class DetailTableViewCell: BaseTableViewCell {
+class DetailTableViewVideoCell: BaseTableViewCell {
     
     let titleLabel = {
         let view = UILabel()
@@ -16,14 +15,12 @@ class DetailTableViewCell: BaseTableViewCell {
         view.textColor = .white
         return view
     }()
-    
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
-    
-    static func layout() -> UICollectionViewLayout {
+   
+    let videoLayout = {
         let layout = UICollectionViewFlowLayout()
         
         let horizontalCount = CGFloat(3)
-        let verticalCount = CGFloat(4)
+        let verticalCount = CGFloat(3)
         let lineSpacing = CGFloat(10)
         let itemSpacing = CGFloat(5)
         let inset = CGFloat(10)
@@ -38,6 +35,28 @@ class DetailTableViewCell: BaseTableViewCell {
         
         return layout
     }
+//    
+//    static func layout() -> UICollectionViewLayout {
+//        let layout = UICollectionViewFlowLayout()
+//        
+//        let horizontalCount = CGFloat(2)
+//        let verticalCount = CGFloat(4)
+//        let lineSpacing = CGFloat(10)
+//        let itemSpacing = CGFloat(5)
+//        let inset = CGFloat(10)
+//        
+//        let width: Double = UIScreen.main.bounds.width - 40.0
+//        let height: Double =  UIScreen.main.bounds.height - 90.0
+//        layout.itemSize = CGSize(width: width / horizontalCount, height: height / verticalCount)
+//        layout.scrollDirection = .horizontal
+//        layout.minimumLineSpacing = lineSpacing
+//        layout.minimumInteritemSpacing = itemSpacing
+//        layout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+//        
+//        return layout
+//    }
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: videoLayout())
     
     override func configHierarchy() {
         contentView.addSubview(titleLabel)
@@ -51,7 +70,7 @@ class DetailTableViewCell: BaseTableViewCell {
         }
         
         collectionView.snp.makeConstraints {
-            $0.height.equalTo(190)
+            $0.height.equalTo(260)
             $0.horizontalEdges.bottom.equalTo(contentView)
             $0.top.equalTo(titleLabel.snp.bottom)
         }
@@ -62,17 +81,10 @@ class DetailTableViewCell: BaseTableViewCell {
         collectionView.backgroundColor = .clear
     }
     
-    func configCell(mediaType: APIConstants.MediaType,rowIndex: Int) {
-        var title: String?
-        switch rowIndex {
-        case 0: title = UIResource.Text.detailViewSimilar.label + mediaType.kr
-        case 1: title = UIResource.Text.detailViewRecommand.label + mediaType.kr
-        case 2: title = UIResource.Text.detailViewPoster.label
-        default: return
-        }
-        guard let title else {
-            return
-        }
-        titleLabel.text = title
+    func configCell(rowIdx: Int) {
+        collectionView.tag = rowIdx
+        titleLabel.text = UIResource.Text.detailViewVideo.label
     }
 }
+
+

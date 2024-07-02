@@ -59,7 +59,7 @@ enum APIRouter: URLRequestConvertible {
     case similerAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
     case recommendationsAPI(contentsType: APIConstants.MediaType, contentsId: Int, page: Int)
     case searchAPI(query: String, page: Int)
-    case imagesAPI(contentsType: APIConstants.MediaType, contentsId: Int, includeImageLanguage: String)
+    case imagesAPI(contentsType: APIConstants.MediaType, contentsId: Int)
     case videoAPI(contentsType: APIConstants.MediaType, contentsId: Int)
     
     
@@ -85,7 +85,7 @@ enum APIRouter: URLRequestConvertible {
             return "\(contentsType)/\(contentsId)/similar"
         case .recommendationsAPI(let contentsType, let contentsId, let page):
             return "\(contentsType)/\(contentsId)/recommendations"
-        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
+        case .imagesAPI(let contentsType, let contentsId):
             return "\(contentsType)/\(contentsId)/images"
         case .videoAPI(let contentsType, let contentsId):
             return "\(contentsType)/\(contentsId)/videos"
@@ -107,8 +107,8 @@ enum APIRouter: URLRequestConvertible {
              .recommendationsAPI(let contentsType, let contentsId, let page):
             Self.baseParameters["page"] = page
             return Self.baseParameters
-        case .imagesAPI(let contentsType, let contentsId, let includeImageLanguage):
-            Self.baseParameters["include_image_language"] = includeImageLanguage
+        case .imagesAPI(let contentsType, let contentsId):
+            Self.baseParameters["include_image_language"] = APIConstants.includeImageLanguage
             return Self.baseParameters
         case .videoAPI(let contentsType, let contentsId):
             Self.baseParameters["include_image_language"] = APIConstants.includeImageLanguage

@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
 //        let vc = MainViewController()
-        let vc = NasaViewController()
+        let vc = MainViewController()
         let navigationController = UINavigationController(rootViewController: vc)
         
         window?.rootViewController = navigationController// sb entrypoint

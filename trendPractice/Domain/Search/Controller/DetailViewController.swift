@@ -23,9 +23,9 @@ class DetailViewController: BaseViewController {
     
     var responseList: [TMDBResponse] = [
         TMDBResponse(page: 1, totalPages: 1, totalResults: 0),
-        TMDBResponse(page: 1, totalPages: 1, totalResults: 0)
+        TMDBResponse(page: 1, totalPages: 1, totalResults: 0),
     ]
-    var imageVector: [[DetailViewImage]] = [[],[],[]]
+    var imageVector: [[DetailViewImage]] = [[],[],[],[]]
 
     
     override func loadView() {
@@ -54,6 +54,8 @@ class DetailViewController: BaseViewController {
         rootView.tableView.dataSource = self
         rootView.tableView.register(DetailTableViewCell.self,
                            forCellReuseIdentifier: DetailTableViewCell.identifier)
+        rootView.tableView.register(DetailTableViewVideoCell.self,
+                                    forCellReuseIdentifier: DetailTableViewVideoCell.identifier)
     }
     
     func requestSimilar(idx: Int, page: Int) {
@@ -97,9 +99,8 @@ class DetailViewController: BaseViewController {
         let group = DispatchGroup()
         let similar = APIRouter.similerAPI(contentsType: mediaType, contentsId: contentsId, page: 1)
         let recommandations = APIRouter.recommendationsAPI(contentsType: mediaType, contentsId: contentsId, page: 1)
-        let images = APIRouter.imagesAPI(contentsType: mediaType, contentsId: contentsId, includeImageLanguage: APIConstants.includeImageLanguage)
-        
-        var succeesList: [Bool] = [false, false, false]
+        let images = APIRouter.imagesAPI(contentsType: mediaType, contentsId: contentsId)
+        let videos = APIRouter.videoAPI(contentsType: mediaType, contentsId: contentsId)
         
         group.enter()
         DispatchQueue.global().async(group: group) {
@@ -144,7 +145,23 @@ class DetailViewController: BaseViewController {
             }
         }
         
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            APIClient.request(VideoResponse.self, router: videos) { videos, error in
+                guard error == nil, let videos else {
+                    self.rootView.networkErrorEvent(error: error)
+                    group.leave()
+                    return
+                }
+                self.imageVector[3] = videos.results
+                print(#function, self.imageVector[3])
+                group.leave()
+            }
+        }
+        
+        
         group.notify(queue: .main) {
+            print(#function, self.imageVector.count)
             self.rootView.tableView.reloadData()
             self.imageVector.enumerated().forEach{ idx, imageList in
                 if imageList.count <= 0 {

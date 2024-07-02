@@ -14,22 +14,35 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCollectionViewCell.identifier, for: indexPath) as! DetailCollectionViewCell
         
         let tableRowIdx = collectionView.tag
         let itemIdx = indexPath.row
         
+        print(#function, mediaType, tableRowIdx)
         guard let mediaType, imageVector[tableRowIdx].count > 0 else {
-            return cell
+            return UICollectionViewCell()
         }
         let data = imageVector[tableRowIdx][itemIdx]
-        cell.configCell(data: data, contentsType: mediaType)
-       
+        
+        var cell: UICollectionViewCell?
+        
+        if collectionView.tag < imageVector.count - 1 {
+            let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCollectionViewCell.identifier, for: indexPath) as! DetailCollectionViewCell
+            imageCell.configCell(data: data, mediaType: mediaType)
+            cell = imageCell
+        } else {
+            let videoCell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCollectionViewVideoCell.identifier, for: indexPath) as! DetailCollectionViewVideoCell
+            videoCell.configCell(data: data, mediaType: mediaType)
+            cell = videoCell
+        }
+        guard let cell else {
+            return UICollectionViewCell()
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if collectionView.tag >= imageVector.count - 1 {
+        if collectionView.tag >= 2 {
             return
         }
         

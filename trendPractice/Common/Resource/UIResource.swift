@@ -31,6 +31,7 @@ struct UIResource {
         case detailViewSimilar
         case detailViewRecommand
         case detailViewPoster
+        case detailViewVideo
         
         
         var sign: String {
@@ -59,6 +60,7 @@ struct UIResource {
             case .detailViewSimilar: return "비슷한 "
             case .detailViewRecommand: return "추천 "
             case .detailViewPoster: return "포스터"
+            case .detailViewVideo: return "비디오"
             default: return "\(self) is Wrong Case for rateTitle"
             }
         }
